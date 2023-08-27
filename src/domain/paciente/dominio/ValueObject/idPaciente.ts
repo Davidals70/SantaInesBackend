@@ -1,4 +1,4 @@
-import { Optional } from "src/utilidad/Optional";
+import { Optional } from "../../../../utilidad/Optional";
 import { v4 as uuidv4 } from 'uuid';
 
 export class idPaciente{
