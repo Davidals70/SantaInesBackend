@@ -1,5 +1,5 @@
-import { idDoctor } from "src/doctor/dominio/ValueObject/idDoctor";
-import { idPaciente } from "src/paciente/dominio/ValueObject/idPaciente";
+import { idDoctor } from "../../doctor/dominio/ValueObject/idDoctor";
+import { idPaciente } from "../../paciente/dominio/ValueObject/idPaciente";
 import { idCita } from "./ValueObject/idCita";
 import { FechaCreacion } from "./ValueObject/FechaCreacion";
 
