@@ -1,4 +1,4 @@
-import { Either } from "../../../../utilidad/Either";
+import { Either } from "../../../../utilidad/either";
 
 export class Correo{
     private correo: string;
