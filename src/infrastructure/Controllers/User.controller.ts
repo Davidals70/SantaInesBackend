@@ -16,7 +16,11 @@ export class UserController {
 
   @Get('info/:username')
   async info(@Param('username') username: string): Promise<UserInfoDto>{
-    return await this.userService.findByUsername(username);
+    const userEntity: UserEntity = await this.userService.findByUsername(username);
+    const userInfoDto: UserInfoDto = new UserInfoDto();
+    userInfoDto.username = userEntity.username;
+    userInfoDto.user_type = userEntity.user_type;
+    return userInfoDto;
   }
 
   @Get('login')
