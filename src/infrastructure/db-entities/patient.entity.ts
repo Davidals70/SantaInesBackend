@@ -31,6 +31,6 @@ export class PatientEntity {
   email: string;
 
   // @OneToMany(() => AppointmentEntity, appointment => appointment.patient_id)
-  @Column()
-  appointment: string;
+  // @Column()
+  // appointment: string;
 }

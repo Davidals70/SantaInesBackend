@@ -18,7 +18,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   port: parseInt(process.env.POSTGRES_PORT ?? '3306'),
   username: process.env.POSTGRES_USER ?? 'root',
   password: process.env.POSTGRES_PASSWORD ?? '',
-  database: process.env.POSTGRES_DB ?? 'santaines',
+  database: process.env.POSTGRES_DB ?? 'santaines_wozc',
   autoLoadEntities: true,
   // entities: [],
   synchronize: true,
