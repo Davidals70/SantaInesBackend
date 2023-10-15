@@ -1,8 +1,8 @@
 import { Inject } from "@nestjs/common";
-import { IApplicationService } from "../../../utilidad/IApplicationService";
-import { Either } from "../../../utilidad/either";
-import { Doctor } from "../dominio/Doctor";
-import { RepositorioDoctor } from "../dominio/RepositorioDoctor";
+import { IApplicationService } from "src/utilidad/IApplicationService";
+import { Either } from "src/utilidad/Either";
+import { Doctor } from "../../domain/doctor/Doctor";
+import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
 
 export class BuscarDoctores implements IApplicationService<string,Iterable<Doctor>>{
 

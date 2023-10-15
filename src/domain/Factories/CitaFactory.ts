@@ -1,7 +1,7 @@
 import { Cita } from "../citas/Cita";
 import { FechaCreacion } from "../citas/ValueObject/FechaCreacion";
 import { IdCita } from "../citas/ValueObject/IdCita";
-import { idDoctor } from "../doctor/dominio/ValueObject/idDoctor";
+import { idDoctor } from "../doctor/ValueObject/idDoctor";
 import { idPaciente } from "../paciente/dominio/ValueObject/idPaciente";
 
 export class CitaFactory{

@@ -1,4 +1,4 @@
-import { Either } from "../../../../utilidad/either";
+import { Either } from "../../../utilidad/either";
 
 export class Apellido {
     [x: string]: any;
@@ -11,7 +11,6 @@ export class Apellido {
     getApellido(): string{
         return this.cuerpo;
     }
-
 
     static create(cuerpo: string): Either<Error,Apellido> {
         return Either.makeRight<Error,Apellido>(new Apellido(cuerpo));

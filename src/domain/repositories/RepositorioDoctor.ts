@@ -1,5 +1,5 @@
-import { Either } from "../../../utilidad/either";
-import { Doctor} from "./Doctor";
+import { Either } from "../../utilidad/either";
+import { Doctor} from "../doctor/Doctor";
 
 export interface RepositorioDoctor{
     registrarDoctor(doctor: Doctor): Promise<Either<Error,Doctor>>;
