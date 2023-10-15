@@ -1,9 +1,9 @@
-import { IApplicationService } from "src/utilidad/IApplicationService";
+import { IApplicationService } from "../../../utilidad/IApplicationService";
 import { RegistrarDoctorDto } from "./DataTransferObject/RegistrarDoctorDto";
 import { Doctor } from "../dominio/Doctor";
 import { RepositorioDoctor } from "../dominio/RepositorioDoctor";
 import { Inject } from "@nestjs/common";
-import { Either } from "src/utilidad/Either";
+import { Either } from "../../../utilidad/Either";
 
 export class RegistrarDoctorService implements IApplicationService<RegistrarDoctorDto,Doctor>{
 

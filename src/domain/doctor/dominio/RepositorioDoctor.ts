@@ -1,4 +1,4 @@
-import { Either } from "src/utilidad/Either";
+import { Either } from "../../../utilidad/Either";
 import { Doctor} from "./Doctor";
 
 export interface RepositorioDoctor{

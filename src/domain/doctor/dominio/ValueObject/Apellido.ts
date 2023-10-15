@@ -1,4 +1,4 @@
-import { Either } from "src/utilidad/Either";
+import { Either } from "../../../../utilidad/Either";
 
 export class Apellido {
     [x: string]: any;
