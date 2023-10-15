@@ -1,7 +1,7 @@
-import { Optional } from "../../../../utilidad/Optional";
+import { Optional } from "../../../utilidad/Optional";
 import { v4 as uuidv4 } from 'uuid';
 
-export class idCita{
+export class IdCita{
     private UUID: string;
 
     private constructor(id: Optional<string>){
@@ -17,7 +17,7 @@ export class idCita{
         return this.UUID;
     }
 
-    static create(id?: string): idCita{
-        return new idCita(new Optional<string>(id));
+    static create(id?: string): IdCita{
+        return new IdCita(new Optional<string>(id));
     }
 }

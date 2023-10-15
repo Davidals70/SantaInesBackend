@@ -1,19 +1,21 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { PatientEntity } from './patient.entity';
-import { DoctorEntity } from './doctor.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, PrimaryColumn } from 'typeorm';
+// import { PatientEntity } from './patient.entity';
+// import { DoctorEntity } from './doctor.entity';
 
 @Entity({ name: 'appointment'})
 export class AppointmentEntity {
-  @PrimaryGeneratedColumn()
-  ID: number;
+  @PrimaryGeneratedColumn("uuid")
+  ID: string;
 
-  @ManyToOne(() => PatientEntity, patient => patient.appointment)
-  @JoinColumn({ name: 'patient_id' })
-  patient: PatientEntity;
+  // @ManyToOne(() => PatientEntity, patient => patient.appointment)
+  // @JoinColumn({ name: 'patient_id' })
+  @Column()
+  patient_id: string;
 
-  @ManyToOne(() => DoctorEntity, doctor => doctor.appointment)
-  @JoinColumn({ name: 'doctor_id' })
-  doctor: DoctorEntity;
+  // @ManyToOne(() => DoctorEntity, doctor => doctor.appointment)
+  // @JoinColumn({ name: 'doctor_id' })
+  @Column()
+  doctor_id: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   creation_date: Date;

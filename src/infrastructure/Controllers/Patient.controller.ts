@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Post, Body, Put, Delete } from '@nestjs/common';
-import { PatientRepositoryService } from '../Services/PacienteServices/PatientRepository.service';
+import { PatientRepositoryService } from '../Services/PatientServices/PatientRepository.service';
 import { PatientEntity } from '../db-entities/patient.entity';
 
 @Controller('patient')

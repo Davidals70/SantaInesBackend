@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Delete, Put, Body, Param, ConflictException } from '@nestjs/common';
-import { UserRepositoryService } from '../Services/UsuarioServices/UserRepository.service';
+import { UserRepositoryService } from '../Services/UserServices/UserRepository.service';
 import { UserEntity } from '../db-entities/user.entity';
 import { UserDto } from '../Dtos/User.dto';
 import { UserLogInDto } from '../Dtos/UserLogInDto.dto';

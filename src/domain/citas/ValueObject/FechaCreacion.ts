@@ -1,4 +1,4 @@
-import { Either } from "../../../../utilidad/either";
+import { Either } from "../../../utilidad/either";
 
 export class FechaCreacion{
     private fecha: Date;
