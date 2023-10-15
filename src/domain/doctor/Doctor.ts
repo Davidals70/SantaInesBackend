@@ -18,7 +18,9 @@ private genero: string;
 private correo: Correo;
 private id: idDoctor; 
 
- private constructor(nombre :Nombre, apellido: Apellido,fechaNacimiento: FechaNacimiento,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: Correo ,id?: idDoctor ){
+ private constructor(nombre :Nombre, apellido: Apellido,fechaNacimiento: FechaNacimiento,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: Correo ,id?: idDoctor )
+ 
+    {
     this.nombre=nombre;
     this.apellido=apellido;
     this.fechaNacimiento=fechaNacimiento;
@@ -29,81 +31,88 @@ private id: idDoctor;
     this.genero=genero;
     this.correo=correo;
     this.id= id;
-}
+    }
 
 
-public getNombre(): string{
+ getNombre(): string{
     return this.nombre.getNombre();
-}
+ }
 
-public getApellido(): string{
+ setNombre(value: Nombre) {
+    this.nombre= value;
+  }
+ getApellido(): string{
     return this.apellido.getApellido();
-}
+ }
 
-public getFechaNacimiento(): Date{
+ setApellido(value:Apellido ) {
+    this.apellido = value;
+  }
+
+ getFechaNacimiento(): Date{
     return this.fechaNacimiento.getFechaNacimiento();
-}
+ } 
 
-public getespecialidad():string {
+ setFechaNacimiento(value:FechaNacimiento ) {
+    this.fechaNacimiento = value;
+ }
+
+ getespecialidad():string {
     return this.especialidad.toString();
-}
+ }
 
-public getcedula():string {
+ setespecialidad(value:string ) {
+    this.especialidad= value;
+  }
+
+ getcedula():string {
     return this.cedula.toString();
-}
-public getDireccion():string {
+ }
+
+ setcedula(value: string) {
+    this.cedula = value;
+  } 
+
+ getDireccion():string {
     return this.Direccion.toString();
-}
+ }
 
-public gettelefono():string {
+ setDireccion(value:string ) {
+    this.Direccion = value;
+  }
+
+ gettelefono():string {
     return this.telefono.toString();
-}
+ }
 
-public getgenero():string {
+ settelefono(value:string ) {
+    this.telefono = value;
+  }
+
+ getgenero():string {
     return this.genero.toString();
-}
+ }
 
-public getCorreo(): string{
+ setgenero(value:string ) {
+    this.genero= value;
+   }
+
+ getCorreo(): string{
     return this.correo.getCorreo();
-}
+ }
+
+ setCorreo(value:Correo ) {
+    this.correo= value;
+  }
 
 
-public getId(): string{
+ getId(): string{
     return this.id.getIDDoctor();
-}
+ }
 
-static create(nombre :string, apellido: string,fechaNacimiento: Date ,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
-    const nombreDoctor = Nombre.create(nombre);
-    if(nombreDoctor.isLeft()){
-        return Either.makeLeft<Error,Doctor>(nombreDoctor .getLeft());
-    }
-    else{
-        const ApellidoDoctor = Apellido.create(apellido);
-        if(ApellidoDoctor.isLeft()){
-            return Either.makeLeft<Error,Doctor>(ApellidoDoctor.getLeft());
-        }
-        else{
-            const fechaNacimientoDoctor = FechaNacimiento.create(fechaNacimiento);
-                if(fechaNacimientoDoctor.isLeft()){
-                    return Either.makeLeft<Error,Doctor>(fechaNacimientoDoctor.getLeft());
-            }
-            else{
-                const fechaNacimientoUsuario = FechaNacimiento.create(fechaNacimiento);
-                if(fechaNacimientoUsuario.isLeft()){
-                    return Either.makeLeft<Error,Doctor>(fechaNacimientoUsuario.getLeft());
-                }
-                else{
-                    const correoDoctor = Correo.create(correo);
-                    if(correoDoctor.isLeft()){
-                    return Either.makeLeft<Error,Doctor>(correoDoctor.getLeft());
-                    }
-                else{
-                    return Either.makeRight<Error,Doctor>(new Doctor(nombreDoctor.getRight(),ApellidoDoctor.getRight(),fechaNacimientoDoctor.getRight(),especialidad,cedula,Direccion,telefono,genero,correoDoctor.getRight(),idDoctor.create(id)));
-                }
-            }
-        }
-    }
-}
+ setId(value:idDoctor) {
+    this.id= value;
+  }
 
-}
+
 }
