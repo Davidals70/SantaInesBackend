@@ -2,7 +2,7 @@ import { IApplicationService } from "../../../utilidad/IApplicationService";
 import {BuscarCorreoDto } from "./DataTransferObject/BuscarCorreoDto";
 import { Doctor } from "../dominio/Doctor";
 import { Inject } from "@nestjs/common";
-import { Either } from "../../../utilidad/Either";
+import { Either } from "../../../utilidad/either";
 import { RepositorioDoctor } from "../dominio/RepositorioDoctor";
 
 export class buscarDoctorPorCorreo implements IApplicationService<BuscarCorreoDto,Doctor>{
