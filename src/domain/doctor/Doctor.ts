@@ -18,7 +18,7 @@ private genero: string;
 private correo: Correo;
 private id: idDoctor; 
 
- private constructor(nombre :Nombre, apellido: Apellido,fechaNacimiento: FechaNacimiento,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: Correo ,id?: idDoctor )
+constructor(nombre :Nombre, apellido: Apellido,fechaNacimiento: FechaNacimiento,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: Correo ,id?: idDoctor )
  
     {
     this.nombre=nombre;
