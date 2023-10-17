@@ -14,7 +14,7 @@ export class ModificarDoctor implements IApplicationService<ModificarDoctorDto,D
     }
 
     async execute(service: ModificarDoctorDto): Promise<Either<Error,Doctor>>{
-        let doctor =   Doctor.create(service.nombre,service.apellido,service.fechaNacimiento,service.especialidad,service.cedula,service.Direccion,service.telefono,service.genero,service.correo,service.IdDoctor);
+        let doctor =   Doctor.create(service.nombre,service.apellido,service.especialidad,service.cedula,service.telefono,service.genero,service.correo,service.IdDoctor);
 
         if(doctor.isRight()){
             return await this.docotorRepositorio.modificarDoctor(doctor.getRight());
