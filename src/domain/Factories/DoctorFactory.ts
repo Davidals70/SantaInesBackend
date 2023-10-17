@@ -7,8 +7,8 @@ import { Apellido } from "../doctor/ValueObject/Apellido";
 import { Doctor } from "../doctor/Doctor";
 
 
-export class DoctoeFactory
-{ Creardoctor(nombre :string, apellido: string,fechaNacimiento: Date ,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
+export class DoctorFactory
+{ static Create(nombre :string, apellido: string,fechaNacimiento: Date ,especialidad: string, cedula: string , Direccion :string,telefono: string, genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
     const nombreDoctor = Nombre.create(nombre);
     if(nombreDoctor.isLeft()){
         return Either.makeLeft<Error,Doctor>(nombreDoctor .getLeft());
