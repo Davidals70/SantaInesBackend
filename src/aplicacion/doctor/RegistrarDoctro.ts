@@ -3,7 +3,7 @@ import { RegistrarDoctorDto } from "./DataTransferObject/RegistrarDoctorDto";
 import { Doctor } from "../../domain/doctor/Doctor";
 import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
 import { Inject } from "@nestjs/common";
-import { Either } from "src/utilidad/Either";
+import { Either } from "src/utilidad/either";
 
 export class RegistrarDoctorService implements IApplicationService<RegistrarDoctorDto,Doctor>{
 

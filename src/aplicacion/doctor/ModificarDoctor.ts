@@ -1,6 +1,6 @@
 import { Inject } from "@nestjs/common";
 import { IApplicationService } from "src/utilidad/IApplicationService";
-import { Either } from "src/utilidad/Either";
+import { Either } from "src/utilidad/either";
 import { Doctor } from "../../domain/doctor/Doctor";
 import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
 import { ModificarDoctorDto } from "./DataTransferObject/ModificarDoctorDto";
