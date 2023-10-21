@@ -5,7 +5,7 @@ import { Inject } from "@nestjs/common";
 import { Either } from "src/utilidad/Either";
 import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
 
-export class buscarDoctorPorCorreo implements IApplicationService<BuscarCorreoDto,Doctor>{
+export class BuscarDoctorPorCorreo implements IApplicationService<BuscarCorreoDto,Doctor>{
 
     private readonly doctorRepositorio: RepositorioDoctor;
 
