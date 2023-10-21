@@ -23,7 +23,7 @@ export class UserController {
     return userInfoDto;
   }
 
-  @Get('login')
+  @Post('login')
   async logIn(@Body() UserLogInDto: UserLogInDto): Promise<Object> {
     const user = await this.userService.findByUsername(UserLogInDto.username);
     if (!user){
