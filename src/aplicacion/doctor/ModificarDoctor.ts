@@ -7,17 +7,17 @@ import { ModificarDoctorDto } from "./DataTransferObject/ModificarDoctorDto";
 
 export class ModificarDoctor implements IApplicationService<ModificarDoctorDto,Doctor>{
     
-    private readonly docotorRepositorio: RepositorioDoctor;
+    private readonly doctorRepositorio: RepositorioDoctor;
 
-    constructor(@Inject('RepositorioDocotor') doctorRepo: RepositorioDoctor){
-        this.docotorRepositorio = doctorRepo;
+    constructor(@Inject('RepositorioDoctor') doctorRepo: RepositorioDoctor){
+        this.doctorRepositorio = doctorRepo;
     }
 
     async execute(service: ModificarDoctorDto): Promise<Either<Error,Doctor>>{
         let doctor =   Doctor.create(service.nombre,service.apellido,service.especialidad,service.cedula,service.telefono,service.genero,service.correo,service.IdDoctor);
 
         if(doctor.isRight()){
-            return await this.docotorRepositorio.modificarDoctor(doctor.getRight());
+            return await this.doctorRepositorio.modificarDoctor(doctor.getRight());
         }
         else{
             return Either.makeLeft<Error,Doctor>(doctor.getLeft());
