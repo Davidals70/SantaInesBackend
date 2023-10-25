@@ -41,7 +41,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
  async buscarDoctores(): Promise<Either<Error, Iterable<Doctor>>> {
   const result: DoctorEntity[] = await this.doctorRepository.find();
-  if(result.length!=0){
+  if(result){
       const doctores: Doctor[] = result.map((doctor) =>
           Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,doctor.phone_number,doctor.gender,doctor.email).getRight());
       return Either.makeRight<Error,Doctor[]>(doctores);
