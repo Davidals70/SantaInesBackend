@@ -96,7 +96,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
    phone_number: doctor.gettelefono(),
    gender: doctor.getgenero(),
     email: doctor.getCorreo(),
-};
+  };
 
       const result = await this.doctorRepository.save(DoctorEnt);
 
@@ -107,11 +107,23 @@ export class DoctorRepositoryService implements RepositorioDoctor
       else{
           return Either.makeLeft<Error,Doctor>(new Error('Error de la base de datos no se modifico'));
       }
+  
+ }
+
+    async eliminarDoctor(id:string): Promise<Either<Error,string>> {
+
+    const result = await this.doctorRepository.delete(id);
+    if(result.affected != 0){
+        return Either.makeRight<Error,string>(id);
+    }
+    else{
+        return Either.makeLeft<Error,string>(new Error('Error de la base de datos'));
+    }
+
+
+
+
+   }
 
 }
-
-
-
-}
-
 
