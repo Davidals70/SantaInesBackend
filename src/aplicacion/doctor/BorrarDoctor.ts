@@ -1,7 +1,7 @@
 import { Inject } from "@nestjs/common";
 import { IApplicationService } from "src/utilidad/IApplicationService";
 import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
-import { Either } from "src/utilidad/Either";
+import { Either } from "src/utilidad/either";
 import { BorrarDoctorDto } from "./DataTransferObject/BorrarDoctorDto";
 
 export class BorrarDoctor implements IApplicationService<BorrarDoctorDto,string>{

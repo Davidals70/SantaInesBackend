@@ -110,5 +110,16 @@ export class DoctorRepositoryService implements RepositorioDoctor
   
  }
 
+ async eliminarDoctor(id:string): Promise<Either<Error,string>> {
+
+    const result = await this.doctorRepository.delete(id);
+    if(result.affected != 0){
+        return Either.makeRight<Error,string>(id);
+    }
+    else{
+        return Either.makeLeft<Error,string>(new Error('Error de la base de datos'));
+    }
+
+  }
 }
 
