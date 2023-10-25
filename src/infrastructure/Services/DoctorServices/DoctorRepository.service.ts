@@ -41,7 +41,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
  async buscarDoctores(): Promise<Either<Error, Iterable<Doctor>>> {
   const result: DoctorEntity[] = await this.doctorRepository.find();
-  if(result){
+  if(result.length!=0){
       const doctores: Doctor[] = result.map((doctor) =>
           Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,doctor.phone_number,doctor.gender,doctor.email).getRight());
       return Either.makeRight<Error,Doctor[]>(doctores);
@@ -109,21 +109,6 @@ export class DoctorRepositoryService implements RepositorioDoctor
       }
   
  }
-
-    async eliminarDoctor(id:string): Promise<Either<Error,string>> {
-
-    const result = await this.doctorRepository.delete(id);
-    if(result.affected != 0){
-        return Either.makeRight<Error,string>(id);
-    }
-    else{
-        return Either.makeLeft<Error,string>(new Error('Error de la base de datos'));
-    }
-
-
-
-
-   }
 
 }
 
