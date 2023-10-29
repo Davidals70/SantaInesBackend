@@ -1,35 +1,94 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PatientEntity } from '../../db-entities/patient.entity';
+import { CreatePatientDto } from 'src/infrastructure/Dtos/CreatePatient.dto';
+import { isUUID } from 'class-validator';
+import { UpdatePatientDto } from 'src/infrastructure/Dtos/UpdatePatient.dto';
+import { Paciente } from 'src/domain/paciente/dominio/Paciente';
 
 @Injectable()
 export class PatientRepositoryService {
+
+  private readonly logger = new Logger('ProductsService');
+  
   constructor(
     @InjectRepository(PatientEntity)
     private pacienteRepository: Repository<PatientEntity>,
   ) {}
 
-  async findAll(): Promise<PatientEntity[]> {
+  async findAll(): Promise<CreatePatientDto[]> {//aaa!!!
     return this.pacienteRepository.find();
   }
 
-  async findOneByIdNumber(id_number: string): Promise<PatientEntity> {
-    return this.pacienteRepository.findOne({ where: { id_number: id_number } });
+  async findOne(id: string): Promise<CreatePatientDto> {//aaa!!!
+    let patient: PatientEntity;
+    if( isUUID(id)){
+      patient = await this.pacienteRepository.findOneBy({ ID: id });
+    }else{
+      const queryBuilder = this.pacienteRepository.createQueryBuilder();
+      patient = await queryBuilder.where("id_number = :id_number", { id_number: id }).getOne();
+    }
+    if(!patient){
+      throw new NotFoundException(`Product with ${id} not found `)
+    } 
+    return patient;
   }
 
-  async create(pacienteData: Partial<PatientEntity>): Promise<PatientEntity> {
-    const paciente = this.pacienteRepository.create(pacienteData);
-    return this.pacienteRepository.save(paciente);
+  async create(pacienteData: CreatePatientDto): Promise<CreatePatientDto> {///aaa!!!Quito el Partial
+    try{
+      // const pacienteDom = new Paciente(
+      //   pacienteData.name, 
+      //   pacienteData.address, 
+      //   pacienteData.birthday, 
+      //   pacienteData.email, 
+      //   pacienteData.gender, 
+      //   pacienteData.id_number,
+      //   pacienteData.lastname, 
+      //   pacienteData.phone_number)
+
+        
+      const paciente = await this.pacienteRepository.create(pacienteData);
+      return await this.pacienteRepository.save(paciente);
+    } catch(error){
+      this.handleDBExceptions(error);
+    }
   }
 
-  async update(id_number: string, pacienteData: Partial<PatientEntity>): Promise<PatientEntity> {
-    await this.pacienteRepository.update(id_number, pacienteData);
-    return this.findOneByIdNumber(id_number);
+  async update(id: string, pacienteData: UpdatePatientDto): Promise<UpdatePatientDto> {//El Partial no es necesario porque estoy usando el DTO de update
+    const patient = await this.pacienteRepository.preload({
+      ID: id,
+      ...pacienteData
+    });
+
+    if(!patient) throw new BadRequestException(`Patient with id ${id} not found`);
+
+    try{
+      await this.pacienteRepository.save(patient); 
+      return patient;
+    }catch(error){
+      this.handleDBExceptions(error);
+    }
+    
+    // await this.pacienteRepository.update(id_number, pacienteData);
+    // return this.findOneByIdNumber(id_number);
   }
 
-  async remove(id_number: string): Promise<void> {
-    const paciente: PatientEntity = await this.findOneByIdNumber(id_number);
-    await this.pacienteRepository.delete(paciente.ID);
+
+
+  async remove(id: string): Promise<void> {
+    const patient = await this.findOne(id);
+    await this.pacienteRepository.delete(patient);
+  }
+
+
+
+  private handleDBExceptions(error: any){
+    if( error.code === '23505')
+      throw new BadRequestException(error.detail)
+  
+    this.logger.error(error);
+    // console.log(error)
+    throw new InternalServerErrorException('Unexpected error, check server logs');
   }
 }
