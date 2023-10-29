@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import { json as expressJson, urlencoded as expressUrlEncoded } from 'express';
 import { AppModule } from './app.module';
 import * as cors from 'cors';
-import { json as expressJson, urlencoded as expressUrlEncoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,13 @@ async function bootstrap() {
     next();
   });
 
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist:true,
+      forbidNonWhitelisted:true
+    }),
+  )
   // await app.listen(parseInt(process.env.PORT));
   await app.listen(8000);
 }
