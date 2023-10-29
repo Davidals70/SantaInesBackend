@@ -3,32 +3,35 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity({ name: 'patient'})
 export class PatientEntity {
+
   @PrimaryGeneratedColumn("uuid")
-  ID: string;
+  ID: string;//id_en_la_bd
 
   @Column()
-  name: string;
+  name: string;//nombre
 
   @Column()
-  lastname: string;
+  lastname: string;//apellido
 
   @Column()
-  birthday: Date;
+  birthday: Date;//2021-05-05
+
+  @Column('text',{
+    unique: true
+  })
+  id_number: string;//cedula//Unica
 
   @Column()
-  id_number: string;
+  address: string;//direccion
 
   @Column()
-  address: string;
+  phone_number: string;//numero_de_telefono
 
   @Column()
-  phone_number: string;
+  gender: string;//genero
 
   @Column()
-  gender: string;
-
-  @Column()
-  email: string;
+  email: string;///correo_electronico
 
   // @OneToMany(() => AppointmentEntity, appointment => appointment.patient_id)
   // @Column()
