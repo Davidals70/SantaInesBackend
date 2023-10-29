@@ -5,7 +5,7 @@ import { PatientRepositoryService } from '../Services/PatientServices/PatientRep
 import { PatientController } from '../Controllers/Patient.controller';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PatientEntity])],
+  imports: [TypeOrmModule.forFeature([ PatientEntity ])],
   controllers: [PatientController],
   providers: [PatientRepositoryService],
   exports: [PatientRepositoryService],
