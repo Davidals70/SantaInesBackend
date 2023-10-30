@@ -74,6 +74,7 @@ export class DoctorController {
     
     @Get('/findByspecialization')
     async findByspecialization(@Res() response, @Body() body: BuscarEspecialidadDto){
+        body.especialidad = body.especialidad.toLowerCase();
         let result = await this.buscarPorEspecialidadService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
