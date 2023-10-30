@@ -2,6 +2,7 @@ import { Controller, Get, Param, Post, Body, Put, Delete , Res, HttpStatus} from
 import { BuscarCorreoDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarCorreoDto';
 import { BuscarDoctorNombreDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarDoctorNombreDto';
 import { BuscarEspecialidadDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarEspecialidadDto';
+import { BuscarCedulaDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarCedulaDto';
 import { ModificarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/ModificarDoctorDto';
 import { RegistrarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/RegistrarDoctorDto';
 import { BorrarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/BorrarDoctorDto';
@@ -9,6 +10,7 @@ import { BuscarDoctores } from 'src/aplicacion/doctor/BuscarDocotres';
 import { BuscarDoctorPorCorreo } from 'src/aplicacion/doctor/BuscarDoctorPorCorreo';
 import { BuscarDoctorPorEspecialidad } from 'src/aplicacion/doctor/BuscarDoctorPorEspecialidad';
 import { BuscarDoctorPornombre } from 'src/aplicacion/doctor/BuscarDoctorPorNombre';
+import { BuscarDoctorPorCedula } from 'src/aplicacion/doctor/BuscarDoctorPorCedula';
 import { ModificarDoctor } from 'src/aplicacion/doctor/ModificarDoctor';
 import { RegistrarDoctorService } from 'src/aplicacion/doctor/RegistrarDoctro';
 import { BorrarDoctor } from 'src/aplicacion/doctor/BorrarDoctor';
@@ -20,6 +22,7 @@ export class DoctorController {
   constructor(private readonly buscarDoctoresService: BuscarDoctores,
               private readonly buscarPorCorreoService:BuscarDoctorPorCorreo,
               private readonly buscarPorEspecialidadService: BuscarDoctorPorEspecialidad,
+              private readonly buscarPorCedulaService: BuscarDoctorPorCedula,
               private readonly eliminarDoctor: BorrarDoctor,
               private readonly buscarPorNombreService:BuscarDoctorPornombre,
               private readonly modifcarDoctorService:ModificarDoctor,
@@ -79,9 +82,20 @@ export class DoctorController {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
+
+    @Get('/findByIdNumber')
+    async findByIdNumber(@Res() response, @Body() body: BuscarCedulaDto){
+        let result = await this.buscarPorCedulaService.execute(body);
+        if(result.isRight()){
+            return response.status(HttpStatus.OK).json(result.getRight());
+        }
+        else{
+            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+        }
+    }
     @Put('/modificate')
-    async modificate(@Res() response, @Body() body: ModificarDoctorDto){
-        let result = await this.modifcarDoctorService.execute(body);
+    async modificate(@Res() response, @Body() cedula: string){
+        let result = await this.modifcarDoctorService.execute(cedula);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }

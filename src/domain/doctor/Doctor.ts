@@ -15,7 +15,8 @@ private genero: string;
 private correo: Correo;
 private id: idDoctor; 
 
-constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: string ,telefono: string, genero: string,  correo: Correo ,id?: idDoctor )
+constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: string ,telefono: string, 
+            genero: string,  correo: Correo ,id?: idDoctor )
  
     {
     this.nombre=nombre;
@@ -96,7 +97,9 @@ constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: s
     this.id= value;
   }
 
-  static create(nombre :string, apellido: string ,especialidad: string, cedula: string ,telefono: string, genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
+  static create(nombre :string, apellido: string ,especialidad: string, cedula: string ,telefono: string
+             , genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
+               
    const nombreDoctor = Nombre.create(nombre);
    if(nombreDoctor.isLeft()){
        return Either.makeLeft<Error,Doctor>(nombreDoctor .getLeft());
