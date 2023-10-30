@@ -54,7 +54,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
  
  async buscarDoctorPorCorreo(correo: string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({email:correo.toLowerCase()});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({email:correo});
   if(result){
       const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
       return Either.makeRight<Error,Doctor>(doctores);
@@ -65,7 +65,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
  }
 
  async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor>> {
-    const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization: especialidad.toLowerCase()});
+    const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization: especialidad});
     if(result){
         const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
         return Either.makeRight<Error,Doctor>(doctores);
@@ -76,7 +76,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
   }
 
  async buscarDoctorPorNombre(nombre: string ,apellido :string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre.toLowerCase(),lastname:apellido.toLowerCase()});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre,lastname:apellido});
   if(result){
       const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
       return Either.makeRight<Error,Doctor>(doctores);
