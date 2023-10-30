@@ -51,6 +51,8 @@ export class DoctorController {
     }
     @Get('/findByName')
     async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto){
+        body.nombre = body.nombre.toLowerCase();
+        body.apellido = body.apellido.toLowerCase();
         let result = await this.buscarPorNombreService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
