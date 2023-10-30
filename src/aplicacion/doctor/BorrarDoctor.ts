@@ -18,7 +18,7 @@ export class BorrarDoctor implements IApplicationService<BorrarDoctorDto,string>
         
         if(service){
 
-            return await this.doctorRepositorio.eliminarDoctor(service.IDdoctor);
+            return await this.doctorRepositorio.eliminarDoctor(service.cedula);
         }
         else{
             return Either.makeLeft<Error,string>(new Error('Error con el Dto'));

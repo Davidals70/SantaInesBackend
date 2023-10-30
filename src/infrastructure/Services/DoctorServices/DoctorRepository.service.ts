@@ -54,7 +54,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
  
  async buscarDoctorPorCorreo(correo: string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({email:correo});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({email:correo.toLowerCase()});
   if(result){
       const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
       return Either.makeRight<Error,Doctor>(doctores);
@@ -65,18 +65,18 @@ export class DoctorRepositoryService implements RepositorioDoctor
  }
 
  async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization:especialidad});
-  if(result){
-      const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
-      return Either.makeRight<Error,Doctor>(doctores);
+    const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization: especialidad.toLowerCase()});
+    if(result){
+        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
+        return Either.makeRight<Error,Doctor>(doctores);
+    }
+    else{
+        return Either.makeLeft<Error,Doctor>(new Error('No se encontro el doctor por especialidad'));
+    }
   }
-  else{
-      return Either.makeLeft<Error,Doctor>(new Error('No se encontro el doctor por especialidad'));
-  }
- }
 
  async buscarDoctorPorNombre(nombre: string ,apellido :string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre,lastname:apellido});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre.toLowerCase(),lastname:apellido.toLowerCase()});
   if(result){
       const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
       return Either.makeRight<Error,Doctor>(doctores);
@@ -128,8 +128,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
   }
 
 
- async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
-
+  async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const result = await this.doctorRepository.delete(cedula);
     if(result.affected != 0){
         return Either.makeRight<Error,string>(cedula);
@@ -137,7 +136,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
     else{
         return Either.makeLeft<Error,string>(new Error('Error de la base de datos'));
     }
+}
 
-  }
 }
 

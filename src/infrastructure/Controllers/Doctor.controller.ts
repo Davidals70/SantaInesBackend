@@ -93,9 +93,10 @@ export class DoctorController {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
+
     @Put('/modificate')
-    async modificate(@Res() response, @Body() cedula: string){
-        let result = await this.modifcarDoctorService.execute(cedula);
+    async modificate(@Res() response, @Body() body: ModificarDoctorDto){
+        let result = await this.modifcarDoctorService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }
@@ -113,7 +114,6 @@ export class DoctorController {
         else{
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
-
     }
   
 
