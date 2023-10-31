@@ -99,7 +99,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
    async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
 
-    let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+   const doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
 
     const doc : DoctorEntity = {
         ID: doctorId.ID=doctor.getId(),
@@ -115,7 +115,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
     
     const result = await this.doctorRepository.save(doc);
     if(result){
-        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
+       console.log("entro");
         return Either.makeRight<Error, Doctor>(doctor);
     }
     else{
