@@ -97,35 +97,31 @@ export class DoctorRepositoryService implements RepositorioDoctor
     }
    }
 
- async modificarDoctor(cedula: string): Promise<Either<Error, Doctor>> {
-    // Aquí puedes buscar al doctor por cédula
-    let doctor = await this.buscarDoctorPorCedula(cedula);
-  
-    if(doctor.isRight()){
-      const DoctorEnt : DoctorEntity = {
-        ID: doctor.getRight().getId(),
-        name: doctor.getRight().getNombre(),
-        lastname: doctor.getRight().getApellido(),
-        specialization: doctor.getRight().getespecialidad(),
-        id_number: doctor.getRight().getcedula(),
-        phone_number: doctor.getRight().gettelefono(),
-        gender: doctor.getRight().getgenero(),
-        email: doctor.getRight().getCorreo(),
-      };
-  
-      const result = await this.doctorRepository.save(DoctorEnt);
-  
-      if(result){
-          return Either.makeRight<Error,Doctor>(doctor.getRight());
-      }
-      else{
-          return Either.makeLeft<Error,Doctor>(new Error('Error de la base de datos no se modifico'));
-      }
+   async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
+
+    let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+
+    const doc : DoctorEntity = {
+        ID: doctorId.ID=doctor.getId(),
+        name: doctorId.name=doctor.getNombre(),
+        lastname: doctorId.lastname=doctor.getApellido(),
+        specialization: doctorId.specialization=doctor.getespecialidad(),
+        id_number: doctorId.id_number=doctor.getcedula(),
+       phone_number: doctorId.phone_number=doctor.gettelefono(),
+       gender: doctorId.gender=doctor.getgenero(),
+        email: doctorId.email=doctor.getCorreo(),
+
+    }; 
+    
+    console.log("repo1",doc)
+    const result = await this.doctorRepository.save(doc);
+    if(result){
+        return Either.makeRight<Error, Doctor>(doctor);
     }
     else{
-      return Either.makeLeft<Error,Doctor>(doctor.getLeft());
+        return Either.makeLeft<Error,Doctor>(new Error('Error de la base de datos'));
     }
-  }
+} 
 
 
   async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {

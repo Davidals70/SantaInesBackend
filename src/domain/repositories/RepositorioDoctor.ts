@@ -8,6 +8,6 @@ export interface RepositorioDoctor{
     buscarDoctorPorEspecialidad(especialidad:string): Promise<Either<Error,Doctor>>;
     buscarDoctorPorCorreo(correo:string): Promise<Either<Error,Doctor>>;
     buscarDoctorPorCedula(cedula:string): Promise<Either<Error,Doctor>>;
-    modificarDoctor(cedula:string ,doctor:Doctor): Promise<Either<Error,Doctor>>;
+    modificarDoctor(doctor:Doctor): Promise<Either<Error,Doctor>>;
     eliminarDoctor (cedula:string): Promise<Either<Error,string>>;
 }

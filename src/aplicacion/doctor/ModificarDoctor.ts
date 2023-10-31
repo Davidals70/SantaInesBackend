@@ -15,7 +15,7 @@ export class ModificarDoctor implements IApplicationService<ModificarDoctorDto, 
         let doctor = Doctor.create(dto.nombre, dto.apellido, dto.especialidad, dto.cedula,
                                    dto.telefono, dto.genero, dto.correo, dto.IdDoctor);
         if(doctor.isRight()){
-            return await this.doctorRepositorio.modificarDoctor(dto.cedula, doctor.getRight());
+            return await this.doctorRepositorio.modificarDoctor(doctor.getRight());
         }
         else{
             return Either.makeLeft<Error,Doctor>(doctor.getLeft());
