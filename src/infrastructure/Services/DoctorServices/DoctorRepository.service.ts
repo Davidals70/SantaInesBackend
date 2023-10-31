@@ -98,30 +98,26 @@ export class DoctorRepositoryService implements RepositorioDoctor
    }
 
    async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
-
-   const doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
-
-    const doc : DoctorEntity = {
-        ID: doctorId.ID=doctor.getId(),
-        name: doctorId.name=doctor.getNombre(),
-        lastname: doctorId.lastname=doctor.getApellido(),
-        specialization: doctorId.specialization=doctor.getespecialidad(),
-        id_number: doctorId.id_number=doctor.getcedula(),
-       phone_number: doctorId.phone_number=doctor.gettelefono(),
-       gender: doctorId.gender=doctor.getgenero(),
-        email: doctorId.email=doctor.getCorreo(),
-
-    }; 
-    
-    const result = await this.doctorRepository.save(doc);
-    if(result){
-       console.log("entro");
-        return Either.makeRight<Error, Doctor>(doctor);
+    let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+    if(doctorId){
+        const doc : DoctorEntity = {
+            ID: doctorId.ID,
+            name: doctor.getNombre(),
+            lastname: doctor.getApellido(),
+            specialization: doctor.getespecialidad(),
+            id_number: doctorId.id_number,
+            phone_number: doctor.gettelefono(),
+            gender: doctor.getgenero(),
+            email: doctor.getCorreo(),
+        }; 
+        const result = await this.doctorRepository.save(doc);
+        if(result){
+            return Either.makeRight<Error, Doctor>(doctor);
+        }
     }
-    else{
-        return Either.makeLeft<Error,Doctor>(new Error('Error de la base de datos'));
-    }
-} 
+    return Either.makeLeft<Error,Doctor>(new Error('Doctor no encontrado'));
+}
+
 
 
   async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {

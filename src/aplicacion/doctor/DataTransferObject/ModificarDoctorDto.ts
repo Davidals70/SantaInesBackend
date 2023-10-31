@@ -1,4 +1,5 @@
 export class ModificarDoctorDto{
+    IdDoctor: string;
     nombre: string;
     apellido: string;
     especialidad: string;
@@ -6,6 +7,6 @@ export class ModificarDoctorDto{
     telefono: string;
     genero: string;
     correo: string;
-    IdDoctor: string;
+    
    
 }
