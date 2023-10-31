@@ -100,23 +100,22 @@ export class DoctorRepositoryService implements RepositorioDoctor
    async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
     let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
     if(doctorId){
-        const doc : DoctorEntity = {
-            ID: doctorId.ID,
-            name: doctor.getNombre(),
-            lastname: doctor.getApellido(),
-            specialization: doctor.getespecialidad(),
-            id_number: doctorId.id_number,
-            phone_number: doctor.gettelefono(),
-            gender: doctor.getgenero(),
-            email: doctor.getCorreo(),
-        }; 
-        const result = await this.doctorRepository.save(doc);
+        doctorId.name = doctor.getNombre();
+        doctorId.lastname = doctor.getApellido();
+        doctorId.specialization = doctor.getespecialidad();
+        doctorId.id_number = doctor.getcedula();
+        doctorId.phone_number = doctor.gettelefono();
+        doctorId.gender = doctor.getgenero();
+        doctorId.email = doctor.getCorreo();
+
+        const result = await this.doctorRepository.save(doctorId);
         if(result){
             return Either.makeRight<Error, Doctor>(doctor);
         }
     }
     return Either.makeLeft<Error,Doctor>(new Error('Doctor no encontrado'));
 }
+
 
 
 
