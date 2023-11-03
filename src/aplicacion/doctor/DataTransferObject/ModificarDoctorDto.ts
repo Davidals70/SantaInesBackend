@@ -1,5 +1,4 @@
 export class ModificarDoctorDto{
-
     nombre: string;
     apellido: string;
     especialidad: string;

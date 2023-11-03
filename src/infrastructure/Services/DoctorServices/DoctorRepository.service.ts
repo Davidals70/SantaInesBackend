@@ -98,26 +98,28 @@ export class DoctorRepositoryService implements RepositorioDoctor
    }
 
    async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
-    let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
-    if(doctorId){
-        doctorId.name = doctor.getNombre();
-        doctorId.lastname = doctor.getApellido();
-        doctorId.specialization = doctor.getespecialidad();
-        doctorId.id_number = doctor.getcedula();
-        doctorId.phone_number = doctor.gettelefono();
-        doctorId.gender = doctor.getgenero();
-        doctorId.email = doctor.getCorreo();
+    try {
+        let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+        if(doctorId){
+            doctorId.name = doctor.getNombre();
+            doctorId.lastname = doctor.getApellido();
+            doctorId.specialization = doctor.getespecialidad();
+            doctorId.id_number = doctor.getcedula();
+            doctorId.phone_number = doctor.gettelefono();
+            doctorId.gender = doctor.getgenero();
+            doctorId.email = doctor.getCorreo();
 
-        const result = await this.doctorRepository.save(doctorId);
-        if(result){
-            return Either.makeRight<Error, Doctor>(doctor);
+            const result = await this.doctorRepository.save(doctorId);
+            if(result){
+                return Either.makeRight<Error, Doctor>(doctor);
+            }
         }
+        return Either.makeLeft<Error,Doctor>(new Error('Doctor no encontrado'));
+    } catch (error) {
+        console.log("ERROR CONEXION", error);
+        return Either.makeLeft<Error,Doctor>(new Error('Error en la conexión a la base de datos'));
     }
-    return Either.makeLeft<Error,Doctor>(new Error('Doctor no encontrado'));
 }
-
-
-
 
   async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const result = await this.doctorRepository.delete(cedula);

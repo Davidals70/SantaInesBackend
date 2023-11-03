@@ -100,8 +100,10 @@ export class DoctorController {
         let result = await this.modifcarDoctorService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
+    
         }
         else{
+            console.log("ERROR CONEXION");
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
