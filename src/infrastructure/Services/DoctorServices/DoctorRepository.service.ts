@@ -125,7 +125,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
   async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const doctor: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
     if(doctor){
-        await this.doctorRepository.remove(doctor);
+        await this.doctorRepository.delete(doctor);
         return Either.makeRight<Error,string>(cedula);
     }
     else{

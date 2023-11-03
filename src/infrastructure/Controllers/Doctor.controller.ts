@@ -119,6 +119,5 @@ export class DoctorController {
     }
   
 
-
  
 }
