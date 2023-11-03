@@ -67,7 +67,8 @@ export class DoctorRepositoryService implements RepositorioDoctor
  async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor>> {
     const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization:especialidad});
     if(result){
-        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email).getRight();
+        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,
+                                               result.phone_number,result.gender,result.email).getRight();
         return Either.makeRight<Error,Doctor>(doctores);
     }
     else{
