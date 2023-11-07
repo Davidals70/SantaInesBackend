@@ -109,7 +109,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
             doctorId.phone_number = doctor.gettelefono();
             doctorId.gender = doctor.getgenero();
             doctorId.email = doctor.getCorreo();
-            doctorId.ID=doctor.getId();
+            
 
             const result = await this.doctorRepository.save(doctorId);
             if(result){
