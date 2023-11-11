@@ -15,8 +15,14 @@ private genero: string;
 private correo: Correo;
 private id: idDoctor; 
 
-constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: string ,telefono: string, 
-            genero: string,  correo: Correo ,id?: idDoctor )
+constructor(nombre :Nombre, 
+            apellido: Apellido , 
+            especialidad: string, 
+            cedula: string ,
+            telefono: string, 
+            genero: string,  
+            correo: Correo ,
+            id: idDoctor )
  
     {
     this.nombre=nombre;
