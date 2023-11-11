@@ -98,7 +98,7 @@ constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: s
   }
 
   static create(nombre :string, apellido: string ,especialidad: string, cedula: string ,telefono: string
-             , genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
+             , genero: string,  correo: string ,id: string ): Either <Error,Doctor>{
                
    const nombreDoctor = Nombre.create(nombre);
    const uuiddoctor = idDoctor.create(id)
