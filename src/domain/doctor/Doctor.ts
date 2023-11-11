@@ -101,7 +101,7 @@ constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: s
              , genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
                
    const nombreDoctor = Nombre.create(nombre);
-   const uuiddoctor = idDoctor.create(id)
+   const uuiddoctor = idDoctor.create(id);
    if(nombreDoctor.isLeft()){
        return Either.makeLeft<Error,Doctor>(nombreDoctor .getLeft());
    }
