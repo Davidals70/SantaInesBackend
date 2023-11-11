@@ -1,23 +1,18 @@
-import { Optional } from "../../../utilidad/Optional";
+
 import { v4 as uuidv4 } from 'uuid';
 
-export class idDoctor{
+export class idDoctor {
     private UUID: string;
 
-    private constructor(id: Optional<string>){
-        if(id.hasvalue()){
-            this.UUID = id.getValue();
-        }
-        else{
-            this.UUID = uuidv4();
-        }
+    private constructor(id?: string) {
+        this.UUID = id || uuidv4();
     }
 
-    getIDDoctor(){
+    getIDDoctor() {
         return this.UUID;
     }
 
-    static create(id: string): idDoctor{
-        return new idDoctor(new Optional<string>(id));
+    static create(id?: string): idDoctor {
+        return new idDoctor(id);
     }
 }
