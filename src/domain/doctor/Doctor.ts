@@ -101,6 +101,7 @@ constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: s
              , genero: string,  correo: string ,id?: string ): Either <Error,Doctor>{
                
    const nombreDoctor = Nombre.create(nombre);
+   const uuiddoctor = idDoctor.create(id)
    if(nombreDoctor.isLeft()){
        return Either.makeLeft<Error,Doctor>(nombreDoctor .getLeft());
    }
@@ -115,7 +116,7 @@ constructor(nombre :Nombre, apellido: Apellido , especialidad: string, cedula: s
                    return Either.makeLeft<Error,Doctor>(correoDoctor.getLeft());
                    }
                else{
-                   return Either.makeRight<Error,Doctor>(new Doctor(nombreDoctor.getRight(),ApellidoDoctor.getRight(),especialidad,cedula,telefono,genero,correoDoctor.getRight(),idDoctor.create(id)));
+                   return Either.makeRight<Error,Doctor>(new Doctor(nombreDoctor.getRight(),ApellidoDoctor.getRight(),especialidad,cedula,telefono,genero,correoDoctor.getRight(),uuiddoctor));
                }
            }
        }
