@@ -90,7 +90,9 @@ export class DoctorRepositoryService implements RepositorioDoctor
  async buscarDoctorPorCedula(cedula: string): Promise<Either<Error,Doctor>> {
     const result: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
     if(result){
-        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email,result.ID);
+        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,
+                                               result.id_number,result.phone_number,
+                                               result.gender,result.email,result.ID);
         return Either.makeRight<Error,Doctor>(doctores);
     }
     else{
