@@ -104,13 +104,13 @@ export class DoctorRepositoryService implements RepositorioDoctor
     try {
         let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
         if(doctorId){
-            doctorId.name = doctor.getNombre();
-            doctorId.lastname = doctor.getApellido();
-            doctorId.specialization = doctor.getespecialidad();
+            doctorId.name = doctor.getNombre().toLowerCase();
+            doctorId.lastname = doctor.getApellido().toLowerCase();
+            doctorId.specialization = doctor.getespecialidad().toLowerCase();
             doctorId.id_number = doctor.getcedula();
             doctorId.phone_number = doctor.gettelefono();
-            doctorId.gender = doctor.getgenero();
-            doctorId.email = doctor.getCorreo();
+            doctorId.gender = doctor.getgenero().toLowerCase();
+            doctorId.email = doctor.getCorreo().toLowerCase();
             
 
             const result = await this.doctorRepository.save(doctorId);

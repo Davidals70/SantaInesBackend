@@ -42,7 +42,6 @@ export class DoctorController {
             correo:body. correo.toLowerCase(),
             id:body.id
 
-            // ... (otros campos)
         };
         let result = await this.registrarDoctorService.execute(doctorDtoLowercased);
         if(result.isRight()){
@@ -117,7 +116,20 @@ async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
 
     @Put('/modificate')
     async modificate(@Res() response, @Body() body: ModificarDoctorDto){
-        let result = await this.modifcarDoctorService.execute(body);
+
+        const doctorDtoLowercased: ModificarDoctorDto = {
+           
+            nombre: body.nombre.toLowerCase(),
+            apellido: body.apellido.toLowerCase(),
+            especialidad: body.especialidad.toLowerCase(),
+            cedula:body.cedula,
+           telefono: body.telefono,
+           genero: body.genero.toLowerCase(),
+            correo:body. correo.toLowerCase(),
+            id:body.id
+
+        };
+        let result = await this.modifcarDoctorService.execute(doctorDtoLowercased);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
     
