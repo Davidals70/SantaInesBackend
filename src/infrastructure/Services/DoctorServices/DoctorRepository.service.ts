@@ -77,6 +77,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
    }
 
 
+
  async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> {
     const nombreLowerCase = nombre.toLowerCase();
     const apellidoLowerCase = apellido.toLowerCase();
@@ -102,6 +103,8 @@ export class DoctorRepositoryService implements RepositorioDoctor
       return Either.makeLeft<Error, Doctor>(new Error('No se encontró el doctor por nombre y apellido'));
     }
   }
+
+
 
  async buscarDoctorPorCedula(cedula: string): Promise<Either<Error,Doctor>> {
     const result: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
