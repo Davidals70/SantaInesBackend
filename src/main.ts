@@ -6,7 +6,7 @@ import { json as expressJson, urlencoded as expressUrlEncoded } from 'express';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const corsOptions: cors.CorsOptions = {
-    origin: ['http://localhost:5173', 'https://hola2.vercel.app'],
+    origin: ['http://localhost:5173', 'https://santa-ines-client.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
