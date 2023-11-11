@@ -1,4 +1,3 @@
-import { Either } from "../../utilidad/either";
 import { idDoctor } from "./ValueObject/idDoctor";
 import { Correo } from "./ValueObject/Correo";
 import { Nombre } from "./ValueObject/Nombre";
