@@ -19,13 +19,13 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
     const usuarioEnt : DoctorEntity = {
         ID: doctor.getId(),
-        name: doctor.getNombre().toLowerCase(),
-        lastname: doctor.getApellido().toLowerCase(),
-        specialization: doctor.getespecialidad().toLowerCase(),
+        name: doctor.getNombre(),
+        lastname: doctor.getApellido(),
+        specialization: doctor.getespecialidad(),
         id_number: doctor.getcedula(),
        phone_number: doctor.gettelefono(),
-       gender: doctor.getgenero().toLowerCase(),
-        email: doctor.getCorreo().toLowerCase(),
+       gender: doctor.getgenero(),
+        email: doctor.getCorreo(),
     };
 
     const result = await this.doctorRepository.save(usuarioEnt);
@@ -77,7 +77,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
    }
 
  async buscarDoctorPorNombre(nombre: string ,apellido :string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre,lastname:apellido});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({name:nombre.toLowerCase(),lastname:apellido.toLowerCase()});
   if(result){
       const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email,result.ID);
       return Either.makeRight<Error,Doctor>(doctores);
