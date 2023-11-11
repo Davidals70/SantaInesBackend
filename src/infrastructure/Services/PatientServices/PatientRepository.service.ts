@@ -6,6 +6,7 @@ import { CreatePatientDto } from 'src/infrastructure/Dtos/CreatePatient.dto';
 import { isUUID } from 'class-validator';
 import { UpdatePatientDto } from 'src/infrastructure/Dtos/UpdatePatient.dto';
 import { Paciente } from 'src/domain/paciente/dominio/Paciente';
+import { PatientFactory } from 'src/domain/Factories/PatientFactory';
 
 @Injectable()
 export class PatientRepositoryService {
@@ -35,23 +36,25 @@ export class PatientRepositoryService {
     return patient;
   }
 
-  async create(pacienteData: CreatePatientDto): Promise<CreatePatientDto> {///aaa!!!Quito el Partial
+  async create(pacienteData: Paciente): Promise<Paciente | null> {///aaa!!!Quito el Partial
     try{
-      // const pacienteDom = new Paciente(
-      //   pacienteData.name, 
-      //   pacienteData.address, 
-      //   pacienteData.birthday, 
-      //   pacienteData.email, 
-      //   pacienteData.gender, 
-      //   pacienteData.id_number,
-      //   pacienteData.lastname, 
-      //   pacienteData.phone_number)
+      const pacienteDominio = new PatientEntity();
+      pacienteDominio.name = pacienteData.getNombre(); 
+      pacienteDominio.address = pacienteData.getDireccion(), 
+      pacienteDominio.birthday = pacienteData.getFechaNacimiento(), 
+      pacienteDominio.email = pacienteData.getCorreo(), 
+      pacienteDominio.gender = pacienteData.getGenero(), 
+      pacienteDominio.id_number = pacienteData.getCedula(),
+      pacienteDominio.lastname = pacienteData.getApellido(), 
+      pacienteDominio.phone_number = pacienteData.getTelefono();
 
         
-      const paciente = await this.pacienteRepository.create(pacienteData);
-      return await this.pacienteRepository.save(paciente);
+      const createdPatient = await this.pacienteRepository.save(pacienteDominio);
+      return this.mapPatientEntityToPaciente(createdPatient);
     } catch(error){
+      console.log(error);
       this.handleDBExceptions(error);
+      return null;
     }
   }
 
@@ -86,9 +89,26 @@ export class PatientRepositoryService {
   private handleDBExceptions(error: any){
     if( error.code === '23505')
       throw new BadRequestException(error.detail)
-  
     this.logger.error(error);
     // console.log(error)
     throw new InternalServerErrorException('Unexpected error, check server logs');
   }
+
+
+  private mapPatientEntityToPaciente(patientEntity: PatientEntity): Paciente {
+    const pacienteFactory = new PatientFactory();
+    return pacienteFactory.CreatePatient(
+      patientEntity.ID,
+      patientEntity.name,
+      patientEntity.lastname,
+      patientEntity.birthday,
+      patientEntity.id_number,
+      patientEntity.address,
+      patientEntity.phone_number,
+      patientEntity.gender,
+      patientEntity.email
+    );
+  }
+
+
 }
