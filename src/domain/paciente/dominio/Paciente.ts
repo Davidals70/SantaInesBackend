@@ -3,7 +3,7 @@ import { FechaNacimiento } from "./ValueObject/FechaNacimiento";
 import { Correo } from "./ValueObject/Correo";
 
 export class Paciente{
-private nombre :string;
+private nombre: string;
 private apellido: string;
 private fechaNacimiento: FechaNacimiento;
 private cedula: string ;
@@ -22,7 +22,7 @@ constructor(nombre :string, apellido: string,fechaNacimiento: FechaNacimiento, c
     this.telefono= telefono;
     this.genero=genero;
     this.correo=correo;
-    this.id= id;
+    this.id=id;
 }
 
 
@@ -43,8 +43,8 @@ public setApellido(apellido: string): void {
     this.apellido = apellido;
 }
 
-public getFechaNacimiento(): FechaNacimiento {
-    return this.fechaNacimiento;
+public getFechaNacimiento(): Date {
+    return this.fechaNacimiento.getFechaNacimiento();
 }
 
 public setFechaNacimiento(fechaNacimiento: FechaNacimiento): void {
@@ -83,8 +83,8 @@ public setGenero(genero: string): void {
     this.genero = genero;
 }
 
-public getCorreo(): Correo {
-    return this.correo;
+public getCorreo(): string {
+    return this.correo.getCorreo();
 }
 
 public setCorreo(correo: Correo): void {
