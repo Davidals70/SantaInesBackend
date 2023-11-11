@@ -17,7 +17,7 @@ async function bootstrap() {
   app.use(expressUrlEncoded({ limit: '50mb', extended: true }));
 
   app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173, https://hola2.vercel.app');
     // Opciones adicionales como Access-Control-Allow-Methods, Access-Control-Allow-Headers, etc.
     next();
   });
