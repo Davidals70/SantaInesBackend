@@ -30,7 +30,20 @@ export class DoctorController {
     ) {}
     @Post('/create')
     async create(@Res() response, @Body() body: RegistrarDoctorDto){
-        let result = await this.registrarDoctorService.execute(body);
+
+        const doctorDtoLowercased: RegistrarDoctorDto = {
+           
+            nombre: body.nombre.toLowerCase(),
+            apellido: body.apellido.toLowerCase(),
+            especialidad: body.especialidad.toLowerCase(),
+            cedula:body.cedula,
+           telefono: body.telefono,
+           genero: body.genero.toLowerCase(),
+            correo:body. correo.toLowerCase(),
+
+            // ... (otros campos)
+        };
+        let result = await this.registrarDoctorService.execute(doctorDtoLowercased);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }
@@ -49,7 +62,7 @@ export class DoctorController {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
-    
+
     @Get('/findByName')
 async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
   const nombreLowerCase = body.nombre.toLowerCase();
