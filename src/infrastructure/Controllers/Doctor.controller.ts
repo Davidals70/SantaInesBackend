@@ -83,7 +83,8 @@ async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
 
     @Get('/findByEmail')
     async findByEmail(@Res() response, @Body() body: BuscarCorreoDto){
-        let result = await this.buscarPorCorreoService.execute(body);
+        const correoLowerCase =body.correo.toLowerCase();
+        let result = await this.buscarPorCorreoService.execute({correo:correoLowerCase});
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }
@@ -95,7 +96,8 @@ async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
     
     @Get('/findByspecialization')
     async findByspecialization(@Res() response, @Body() body: BuscarEspecialidadDto){
-        let result = await this.buscarPorEspecialidadService.execute(body);
+        const especialidadLowerCase=body.especialidad.toLowerCase();
+        let result = await this.buscarPorEspecialidadService.execute({especialidad:especialidadLowerCase});
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }
