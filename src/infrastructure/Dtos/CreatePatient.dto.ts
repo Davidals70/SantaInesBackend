@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsDate, IsString, Min, MinDate, MinLength } from "class-validator";
+import { IsDate, IsNotEmpty, IsString, Min, MinDate, MinLength } from "class-validator";
 
 
 export class CreatePatientDto{
@@ -13,8 +13,9 @@ export class CreatePatientDto{
     lastname: string;//apellido
   
     @IsDate()
-    @Type(() => Date)
-    @MinDate(new Date('1850-05-05'))
+    @IsNotEmpty()
+    // @Type(() => Date)
+    // @MinDate(new Date('05-05-1850'))
     birthday: Date;//2021-05-05
   
     @IsString()
