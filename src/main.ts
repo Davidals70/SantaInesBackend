@@ -24,12 +24,12 @@ async function bootstrap() {
   });
 
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist:true,
-      forbidNonWhitelisted:true
-    }),
-  )
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist:true,
+  //     forbidNonWhitelisted:true
+  //   }),
+  // )
   // await app.listen(parseInt(process.env.PORT));
   await app.listen(8000);
 }
