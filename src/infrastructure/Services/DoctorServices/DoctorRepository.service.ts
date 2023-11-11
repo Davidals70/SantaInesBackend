@@ -22,8 +22,8 @@ export class DoctorRepositoryService implements RepositorioDoctor
         name: doctor.getNombre().toLowerCase(),
         lastname: doctor.getApellido().toLowerCase(),
         specialization: doctor.getespecialidad().toLowerCase(),
-        id_number: doctor.getcedula().toLowerCase(),
-        phone_number: doctor.gettelefono().toLowerCase(),
+        id_number: doctor.getcedula(),
+        phone_number: doctor.gettelefono(),
         gender: doctor.getgenero().toLowerCase(),
         email: doctor.getCorreo().toLowerCase(),
     };

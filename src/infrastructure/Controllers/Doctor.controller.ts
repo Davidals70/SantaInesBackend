@@ -29,18 +29,28 @@ export class DoctorController {
               private readonly registrarDoctorService:RegistrarDoctorService,
     ) {}
     @Post('/create')
-    async create(@Res() response, @Body() body: RegistrarDoctorDto){
-
+async create(@Res() response, @Body() body: RegistrarDoctorDto) {
     
-        let result = await this.registrarDoctorService.execute(body);
-        if(result.isRight()){
-            return response.status(HttpStatus.OK).json(result.getRight());
-        }
-        else{
-            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
-        }
-    }
+    const doctorDtoLowercased: RegistrarDoctorDto = {
+        
+        nombre: body.nombre.toLowerCase(),
+        apellido: body.apellido.toLowerCase(),
+        especialidad: body.especialidad.toLowerCase(),
+        cedula: body.cedula,
+        telefono:body.telefono,
+        genero:body.genero,
+        correo:body.correo,
+        id:body.id
+    };
 
+    let result = await this.registrarDoctorService.execute(doctorDtoLowercased);
+
+    if (result.isRight()) {
+        return response.status(HttpStatus.OK).json(result.getRight());
+    } else {
+        return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+    }
+}
     @Get('/findAll')
     async findAll(@Res() response){
         let result = await this.buscarDoctoresService.execute('BuscarDoctores');
