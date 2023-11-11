@@ -17,7 +17,7 @@ export class idDoctor{
         return this.UUID;
     }
 
-    static create(id?: string): idDoctor{
+    static create(id: string): idDoctor{
         return new idDoctor(new Optional<string>(id));
     }
 }

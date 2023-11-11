@@ -7,7 +7,7 @@ import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const corsOptions: cors.CorsOptions = {
-    origin: '*',
+    origin: ['http://localhost:5173', 'https://santa-ines-client.vercel.app'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   };
@@ -30,6 +30,7 @@ async function bootstrap() {
   //     forbidNonWhitelisted:true
   //   }),
   // )
+  
   // await app.listen(parseInt(process.env.PORT));
   await app.listen(8000);
 }
