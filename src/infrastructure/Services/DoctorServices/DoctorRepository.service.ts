@@ -19,13 +19,13 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
     const usuarioEnt : DoctorEntity = {
         ID: doctor.getId(),
-        name: doctor.getNombre(),
-        lastname: doctor.getApellido(),
-        specialization: doctor.getespecialidad(),
-        id_number: doctor.getcedula(),
-       phone_number: doctor.gettelefono(),
-       gender: doctor.getgenero(),
-        email: doctor.getCorreo(),
+        name: doctor.getNombre().toLowerCase(),
+        lastname: doctor.getApellido().toLowerCase(),
+        specialization: doctor.getespecialidad().toLowerCase(),
+        id_number: doctor.getcedula().toLowerCase(),
+        phone_number: doctor.gettelefono().toLowerCase(),
+        gender: doctor.getgenero().toLowerCase(),
+        email: doctor.getCorreo().toLowerCase(),
     };
 
     const result = await this.doctorRepository.save(usuarioEnt);

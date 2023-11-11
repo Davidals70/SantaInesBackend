@@ -52,15 +52,22 @@ export class DoctorController {
         }
     }
     @Get('/findByName')
-    async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto){
-        let result = await this.buscarPorNombreService.execute(body);
-        if(result.isRight()){
-            return response.status(HttpStatus.OK).json(result.getRight());
-        }
-        else{
-            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
-        }
+    async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
+      const nombreLowerCase = body.nombre.toLowerCase();
+      const apellidoLowerCase = body.apellido.toLowerCase();
+    
+      let result = await this.buscarPorNombreService.execute({
+        nombre: nombreLowerCase,
+        apellido: apellidoLowerCase,
+      });
+    
+      if (result.isRight()) {
+        return response.status(HttpStatus.OK).json(result.getRight());
+      } else {
+        return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+      }
     }
+    
 
     @Get('/findByEmail')
     async findByEmail(@Res() response, @Body() body: BuscarCorreoDto){
