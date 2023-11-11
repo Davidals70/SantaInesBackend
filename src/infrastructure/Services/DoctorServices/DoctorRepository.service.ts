@@ -79,12 +79,12 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
 
  async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> {
-    const nombreLowerCase = nombre.toLowerCase();
-    const apellidoLowerCase = apellido.toLowerCase();
+    //const nombreLowerCase = nombre.toLowerCase();
+   // const apellidoLowerCase = apellido.toLowerCase();
   
     const result: DoctorEntity = await this.doctorRepository.findOneBy({
-      name: nombreLowerCase,
-      lastname: apellidoLowerCase,
+      name: nombre,
+      lastname: apellido,
     });
   
     if (result) {

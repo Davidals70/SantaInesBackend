@@ -36,10 +36,10 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         nombre: body.nombre.toLowerCase(),
         apellido: body.apellido.toLowerCase(),
         especialidad: body.especialidad.toLowerCase(),
-        cedula: body.cedula,
-        telefono:body.telefono,
-        genero:body.genero,
-        correo:body.correo,
+        cedula:body.cedula,
+       telefono: body.telefono,
+       genero: body.genero.toLowerCase(),
+        correo:body. correo.toLowerCase(),
         id:body.id
     };
 
