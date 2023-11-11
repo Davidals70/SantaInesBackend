@@ -6,6 +6,7 @@ export class ModificarDoctorDto{
     telefono: string;
     genero: string;
     correo: string;
+    id:string;
     
    
 }

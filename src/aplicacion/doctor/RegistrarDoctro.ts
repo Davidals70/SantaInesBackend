@@ -15,14 +15,12 @@ export class RegistrarDoctorService implements IApplicationService<RegistrarDoct
 
     async execute(service: RegistrarDoctorDto): Promise<Either<Error,Doctor>>{
         let doctor = Doctor.create(service.nombre,service.apellido,service.especialidad
-                                  ,service.cedula,service.telefono,service.genero,service.correo);
+                                  ,service.cedula,service.telefono,service.genero,service.correo,service.id);
 
-        if(doctor.isRight()){
-            return await this.Repositoriodoctor.registrarDoctor(doctor.getRight());
+        if(doctor){
+            return await this.Repositoriodoctor.registrarDoctor(doctor);
         }
-        else{
-            return Either.makeLeft<Error,Doctor>(doctor.getLeft());
-        }
+        
     }
 
 }

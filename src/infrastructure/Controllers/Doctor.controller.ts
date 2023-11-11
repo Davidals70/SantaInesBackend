@@ -40,6 +40,7 @@ export class DoctorController {
            telefono: body.telefono,
            genero: body.genero.toLowerCase(),
             correo:body. correo.toLowerCase(),
+            id:body.id
 
             // ... (otros campos)
         };

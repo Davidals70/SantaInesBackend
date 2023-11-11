@@ -6,6 +6,7 @@ export class RegistrarDoctorDto{
     public telefono: string;
     public genero: string;
     public correo: string;
+    public id:string;
 
    
 }
