@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Raw, Repository } from 'typeorm';
 import { DoctorEntity } from '../../db-entities/doctor.entity';
-import { Doctor } from "src/domain/doctor/Doctor";
+import { Doctor } from 'src/domain/doctor/Doctor';
 import { RepositorioDoctor } from "src/domain/repositories/RepositorioDoctor";
-
 import { Either } from "src/utilidad/either";
 
 @Injectable()
@@ -19,13 +18,13 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
     const usuarioEnt : DoctorEntity = {
         ID: doctor.getId(),
-        name: doctor.getNombre().toLowerCase(),
-        lastname: doctor.getApellido().toLowerCase(),
-        specialization: doctor.getespecialidad().toLowerCase(),
+        name: doctor.getNombre(),
+        lastname: doctor.getApellido(),
+        specialization: doctor.getespecialidad(),
         id_number: doctor.getcedula(),
         phone_number: doctor.gettelefono(),
-        gender: doctor.getgenero().toLowerCase(),
-        email: doctor.getCorreo().toLowerCase(),
+        gender: doctor.getgenero(),
+        email: doctor.getCorreo(),
     };
 
     const result = await this.doctorRepository.save(usuarioEnt);
@@ -48,7 +47,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
       return Either.makeRight<Error,Doctor[]>(doctores);
   }
   else{
-      return Either.makeLeft<Error,Doctor[]>(new Error('Error de la base de datos busqueda'));
+      return Either.makeLeft<Error,Doctor[]>(new Error('No se encontro ningun doctor'));
   }
  }
 
@@ -79,12 +78,11 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
 
  async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> {
-    //const nombreLowerCase = nombre.toLowerCase();
-   // const apellidoLowerCase = apellido.toLowerCase();
-  
+
+   
     const result: DoctorEntity = await this.doctorRepository.findOneBy({
-      name: nombre,
-      lastname: apellido,
+      name: Raw(alias => `LOWER(${alias}) = LOWER('${nombre}')`),
+      lastname: Raw(alias => `LOWER(${alias}) = LOWER('${apellido}')`),
     });
   
     if (result) {
@@ -123,13 +121,13 @@ export class DoctorRepositoryService implements RepositorioDoctor
     try {
         let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
         if(doctorId){
-            doctorId.name = doctor.getNombre().toLowerCase();
-            doctorId.lastname = doctor.getApellido().toLowerCase();
-            doctorId.specialization = doctor.getespecialidad().toLowerCase();
+            doctorId.name = doctor.getNombre();
+            doctorId.lastname = doctor.getApellido();
+            doctorId.specialization = doctor.getespecialidad();
             doctorId.id_number = doctor.getcedula();
             doctorId.phone_number = doctor.gettelefono();
-            doctorId.gender = doctor.getgenero().toLowerCase();
-            doctorId.email = doctor.getCorreo().toLowerCase();
+            doctorId.gender = doctor.getgenero();
+            doctorId.email = doctor.getCorreo();
             
 
             const result = await this.doctorRepository.save(doctorId);
