@@ -98,6 +98,6 @@ public getId(): idPaciente {
 public setId(id: idPaciente): void {
     this.id = id;
 }
-
+//hola
 
 }
