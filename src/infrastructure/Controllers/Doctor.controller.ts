@@ -29,18 +29,18 @@ export class DoctorController {
               private readonly registrarDoctorService:RegistrarDoctorService,
     ) {}
     @Post('/create')
-    async create(@Res() response, @Body() body: RegistrarDoctorDto){
-
+async create(@Res() response, @Body() body: RegistrarDoctorDto) {
     
-        let result = await this.registrarDoctorService.execute(body);
-        if(result.isRight()){
-            return response.status(HttpStatus.OK).json(result.getRight());
-        }
-        else{
-            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
-        }
-    }
 
+
+    let result = await this.registrarDoctorService.execute(body);
+
+    if (result.isRight()) {
+        return response.status(HttpStatus.OK).json(result.getRight());
+    } else {
+        return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+    }
+}
     @Get('/findAll')
     async findAll(@Res() response){
         let result = await this.buscarDoctoresService.execute('BuscarDoctores');
@@ -51,23 +51,23 @@ export class DoctorController {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
-
     @Get('/findByName')
-async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
-  const nombreLowerCase = body.nombre.toLowerCase();
-  const apellidoLowerCase = body.apellido.toLowerCase();
-
-  let result = await this.buscarPorNombreService.execute({
-    nombre: nombreLowerCase,
-    apellido: apellidoLowerCase,
-  });
-
-  if (result.isRight()) {
-    return response.status(HttpStatus.OK).json(result.getRight());
-  } else {
-    return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
-  }
-}
+    async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
+      const nombreLowerCase = body.nombre.toLowerCase();
+      const apellidoLowerCase = body.apellido.toLowerCase();
+    
+      let result = await this.buscarPorNombreService.execute({
+        nombre: nombreLowerCase,
+        apellido: apellidoLowerCase,
+      });
+    
+      if (result.isRight()) {
+        return response.status(HttpStatus.OK).json(result.getRight());
+      } else {
+        return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+      }
+    }
+    
 
     @Get('/findByEmail')
     async findByEmail(@Res() response, @Body() body: BuscarCorreoDto){
@@ -108,19 +108,7 @@ async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
     @Put('/modificate')
     async modificate(@Res() response, @Body() body: ModificarDoctorDto){
 
-        const doctorDtoLowercased: ModificarDoctorDto = {
-           
-            nombre: body.nombre.toLowerCase(),
-            apellido: body.apellido.toLowerCase(),
-            especialidad: body.especialidad.toLowerCase(),
-            cedula:body.cedula,
-           telefono: body.telefono,
-           genero: body.genero.toLowerCase(),
-            correo:body. correo.toLowerCase(),
-            id:body.id
-
-        };
-        let result = await this.modifcarDoctorService.execute(doctorDtoLowercased);
+        let result = await this.modifcarDoctorService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
     
