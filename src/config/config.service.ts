@@ -21,7 +21,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: process.env.POSTGRES_DB,
   autoLoadEntities: true,
   // entities: [],
-  synchronize: true,
+  synchronize: false,
   ssl: process.env.POSTGRES_SSL === "true",
   extra: {
     ssl: process.env.POSTGRES_SSL === "true" ? {rejectUnauthorized: false} : null

@@ -75,6 +75,13 @@ ALTER TABLE "user"
   -- ADD PRIMARY KEY (ID),
   ADD UNIQUE (username);
 
+
+ALTER TABLE doctor
+ADD user_id varchar(255);
+
+ALTER TABLE doctor
+    ADD CONSTRAINT fk_user_doctor FOREIGN KEY (user_id) REFERENCES customers (username);
+
 -- Auto-increment for dumped tables
 -- Auto-increment for the 'user' table
 -- No need to modify the ID column in PostgreSQL; it will auto-increment by default.
