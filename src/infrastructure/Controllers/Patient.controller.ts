@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Body, Put, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Put, Delete, ParseUUIDPipe, Patch } from '@nestjs/common';
 import { PatientRepositoryService } from '../Services/PatientServices/PatientRepository.service';
 import { PatientEntity } from '../db-entities/patient.entity';
 import { CreatePatientDto } from '../Dtos/CreatePatient.dto';
@@ -13,14 +13,30 @@ export class PatientController {
   constructor(private readonly patientService: PatientRepositoryService,
     ) {}
 
-  @Get()//aaa!!!
-  findAll(): Promise<CreatePatientDto[]> {
+  @Get()//*****
+  async findAll(): Promise<CreatePatientDto[]> {
     return this.patientService.findAll();
   }
 
   @Get(':id')//aaa!!!
-  findOne(@Param('id') id: string): Promise<CreatePatientDto> {
-    return this.patientService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<Object> {
+    const existingPatient: Paciente = await this.patientService.findOne(id);
+    if(existingPatient){
+      const patient: PatientEntity = new PatientEntity();
+      patient.name = existingPatient.getNombre();
+      patient.lastname = existingPatient.getApellido();
+      patient.address = existingPatient.getDireccion();
+      patient.birthday = existingPatient.getFechaNacimiento();
+      patient.id_number = existingPatient.getCedula();
+      patient.email = existingPatient.getCorreo();
+      patient.phone_number = existingPatient.getTelefono();
+      patient.gender = existingPatient.getGenero();
+      return patient;
+    }
+    return {
+      error: 'Patient not found'
+    };
+    // return this.patientService.findOne(id);
   }
 
   @Post()//*****
@@ -60,20 +76,45 @@ export class PatientController {
     // return this.patientService.create(patientData);
   }
 
-  @Put(':id')//aaa!!!
-  update(
+  @Patch(':id')//aaa!!!
+  async update(
   @Param('id', ParseUUIDPipe) id: string, 
-  @Body() patientData: UpdatePatientDto): Promise<UpdatePatientDto> {//Quito el partial porque no es necesario
+  @Body() patientData: UpdatePatientDto): Promise<Object> {//Quito el partial porque no es necesario
+    const patientFactory: PatientFactory = new PatientFactory();
+    const patient: Paciente = patientFactory.CreatePatient(
+      null,
+      patientData.name,
+      patientData.lastname,
+      patientData.birthday,
+      patientData.id_number,
+      patientData.address,
+      patientData.phone_number,
+      patientData.gender,
+      patientData.email,
+    );
     
-
-
-
-    
-    return this.patientService.update(id, patientData);
+    return await this.patientService.update(id, patient);
+    // return this.patientService.update(id, patientData);
   }
 
+
   @Delete(':id')//aaa!!!
-  remove(@Param('id') id: string): Promise<void> {
-    return this.patientService.remove(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    await this.patientService.remove(id);
+
+    // if(deleted){
+    //   return {
+    //     message: "Succesful",
+    //     value: true
+    //   }
+    // }
+    // else{
+    //   return {
+    //     message: "Error while deleting",
+    //     value: false
+    //   }
+    // }
+
+    // return this.patientService.remove(id);
   }
 }
