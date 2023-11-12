@@ -47,8 +47,8 @@ public getFechaNacimiento(): Date {
     return this.fechaNacimiento.getFechaNacimiento();
 }
 
-public setFechaNacimiento(fechaNacimiento: FechaNacimiento): void {
-    this.fechaNacimiento = fechaNacimiento;
+public setFechaNacimiento(fechaNacimiento: Date): void {
+    this.fechaNacimiento = FechaNacimiento.create(fechaNacimiento).getRight();
 }
 
 public getCedula(): string {
@@ -87,8 +87,8 @@ public getCorreo(): string {
     return this.correo.getCorreo();
 }
 
-public setCorreo(correo: Correo): void {
-    this.correo = correo;
+public setCorreo(correo: string): void {
+    this.correo = Correo.create(correo).getRight();
 }
 
 public getId(): idPaciente {
