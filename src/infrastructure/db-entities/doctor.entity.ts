@@ -27,6 +27,9 @@ export class DoctorEntity {
   @Column()
   email: string;
 
+  @Column()
+  user_id: string;
+
   // @OneToMany(() => AppointmentEntity, appointment => appointment.doctor_id)
   // @Column()
   // appointment: string;

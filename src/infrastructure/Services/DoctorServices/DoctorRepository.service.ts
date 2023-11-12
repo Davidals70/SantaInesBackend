@@ -15,6 +15,14 @@ export class DoctorRepositoryService implements RepositorioDoctor
   ) {}
 
   async registrarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
+    // Busca un doctor existente con la misma cédula
+    const existingDoctor = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+
+    // Si ya existe un doctor con la misma cédula, devuelve un error
+    if (existingDoctor) {
+        return Either.makeLeft<Error,Doctor>(new Error('Ya existe un doctor con esa cédula'));
+    }
+
 
     const usuarioEnt : DoctorEntity = {
         ID: doctor.getId(),
@@ -25,6 +33,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
         phone_number: doctor.gettelefono(),
         gender: doctor.getgenero(),
         email: doctor.getCorreo(),
+        user_id:doctor.getIdUsuario(),
     };
 
     const result = await this.doctorRepository.save(usuarioEnt);
@@ -43,7 +52,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
   const result: DoctorEntity[] = await this.doctorRepository.find();
   if(result.length!=0){
       const doctores: Doctor[] = result.map((doctor) =>
-          Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,doctor.phone_number,doctor.gender,doctor.email,doctor.ID));
+          Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,doctor.phone_number,doctor.gender,doctor.email,doctor.user_id,doctor.ID));
       return Either.makeRight<Error,Doctor[]>(doctores);
   }
   else{
@@ -53,9 +62,10 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
  
  async buscarDoctorPorCorreo(correo: string): Promise<Either<Error,Doctor>> {
-  const result: DoctorEntity = await this.doctorRepository.findOneBy({email:correo});
+  const result: DoctorEntity = await this.doctorRepository.findOneBy({
+    email:Raw(alias => `LOWER(${alias}) = LOWER('${correo}')`)});
   if(result){
-      const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email,result.ID);
+      const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,result.phone_number,result.gender,result.email,result.user_id,result.ID);
       return Either.makeRight<Error,Doctor>(doctores);
   }
   else{
@@ -64,10 +74,11 @@ export class DoctorRepositoryService implements RepositorioDoctor
  }
 
  async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor>> {
-    const result: DoctorEntity = await this.doctorRepository.findOneBy({specialization:especialidad});
+    const result: DoctorEntity = await this.doctorRepository.findOneBy({
+        specialization:Raw(alias => `LOWER(${alias}) = LOWER('${especialidad}')`)});
     if(result){
         const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,
-                                               result.phone_number,result.gender,result.email,result.ID);
+                                               result.phone_number,result.gender,result.email,result.user_id,result.ID);
         return Either.makeRight<Error,Doctor>(doctores);
     }
     else{
@@ -77,9 +88,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
 
 
- async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> {
-
-   
+ async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> { 
     const result: DoctorEntity = await this.doctorRepository.findOneBy({
       name: Raw(alias => `LOWER(${alias}) = LOWER('${nombre}')`),
       lastname: Raw(alias => `LOWER(${alias}) = LOWER('${apellido}')`),
@@ -94,6 +103,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
         result.phone_number,
         result.gender,
         result.email,
+        result.user_id,
         result.ID
       );
       return Either.makeRight<Error, Doctor>(doctores);
@@ -109,7 +119,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
     if(result){
         const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,
                                                result.id_number,result.phone_number,
-                                               result.gender,result.email,result.ID);
+                                               result.gender,result.email,result.user_id,result.ID);
         return Either.makeRight<Error,Doctor>(doctores);
     }
     else{
@@ -121,15 +131,14 @@ export class DoctorRepositoryService implements RepositorioDoctor
     try {
         let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
         if(doctorId){
-            doctorId.name = doctor.getNombre();
-            doctorId.lastname = doctor.getApellido();
-            doctorId.specialization = doctor.getespecialidad();
-            doctorId.id_number = doctor.getcedula();
-            doctorId.phone_number = doctor.gettelefono();
-            doctorId.gender = doctor.getgenero();
-            doctorId.email = doctor.getCorreo();
-            
-
+            if (doctor.getNombre()) doctorId.name = doctor.getNombre();
+            if (doctor.getApellido()) doctorId.lastname = doctor.getApellido();
+            if (doctor.getespecialidad()) doctorId.specialization = doctor.getespecialidad();
+            if (doctor.getcedula()) doctorId.id_number = doctor.getcedula();
+            if (doctor.gettelefono()) doctorId.phone_number = doctor.gettelefono();
+            if (doctor.getgenero()) doctorId.gender = doctor.getgenero();
+            if (doctor.getCorreo()) doctorId.email = doctor.getCorreo();
+            if (doctor.getIdUsuario()) doctorId.user_id = doctor.getIdUsuario();
             const result = await this.doctorRepository.save(doctorId);
             if(result){
                 return Either.makeRight<Error, Doctor>(doctor);
@@ -141,6 +150,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
         return Either.makeLeft<Error,Doctor>(new Error('Error en la conexión a la base de datos'));
     }
 }
+
 
   async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const doctor: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
