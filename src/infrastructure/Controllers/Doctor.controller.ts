@@ -31,19 +31,9 @@ export class DoctorController {
     @Post('/create')
 async create(@Res() response, @Body() body: RegistrarDoctorDto) {
     
-    const doctorDtoLowercased: RegistrarDoctorDto = {
-        
-        nombre: body.nombre.toLowerCase(),
-        apellido: body.apellido.toLowerCase(),
-        especialidad: body.especialidad.toLowerCase(),
-        cedula:body.cedula,
-       telefono: body.telefono,
-       genero: body.genero.toLowerCase(),
-        correo:body. correo.toLowerCase(),
-        id:body.id
-    };
 
-    let result = await this.registrarDoctorService.execute(doctorDtoLowercased);
+
+    let result = await this.registrarDoctorService.execute(body);
 
     if (result.isRight()) {
         return response.status(HttpStatus.OK).json(result.getRight());
@@ -118,19 +108,7 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
     @Put('/modificate')
     async modificate(@Res() response, @Body() body: ModificarDoctorDto){
 
-        const doctorDtoLowercased: ModificarDoctorDto = {
-           
-            nombre: body.nombre.toLowerCase(),
-            apellido: body.apellido.toLowerCase(),
-            especialidad: body.especialidad.toLowerCase(),
-            cedula:body.cedula,
-           telefono: body.telefono,
-           genero: body.genero.toLowerCase(),
-            correo:body. correo.toLowerCase(),
-            id:body.id
-
-        };
-        let result = await this.modifcarDoctorService.execute(doctorDtoLowercased);
+        let result = await this.modifcarDoctorService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
     
