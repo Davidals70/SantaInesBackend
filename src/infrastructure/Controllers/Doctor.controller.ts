@@ -30,9 +30,6 @@ export class DoctorController {
     ) {}
     @Post('/create')
 async create(@Res() response, @Body() body: RegistrarDoctorDto) {
-    
-
-
     let result = await this.registrarDoctorService.execute(body);
 
     if (result.isRight()) {
@@ -51,6 +48,7 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
+
     @Get('/findByName')
     async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
       const nombreLowerCase = body.nombre.toLowerCase();
@@ -107,11 +105,9 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
 
     @Put('/modificate')
     async modificate(@Res() response, @Body() body: ModificarDoctorDto){
-
         let result = await this.modifcarDoctorService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
-    
         }
         else{
             console.log("ERROR CONEXION");

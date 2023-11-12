@@ -4,6 +4,7 @@ import { Nombre } from "./ValueObject/Nombre";
 import { Apellido } from "./ValueObject/Apellido";
 
 
+
 export class Doctor{
 private nombre :Nombre;
 private apellido: Apellido;
@@ -12,6 +13,7 @@ private cedula: string ;
 private telefono: string;
 private genero: string;
 private correo: Correo;
+private id_usuario: string | null; // Cambia a opcional
 private id: idDoctor; 
 
 constructor(nombre :Nombre, 
@@ -21,6 +23,7 @@ constructor(nombre :Nombre,
             telefono: string, 
             genero: string,  
             correo: Correo ,
+            id_usuario :string | null, // Cambia a opcional
             id: idDoctor )
  
     {
@@ -31,6 +34,7 @@ constructor(nombre :Nombre,
     this.telefono= telefono;
     this.genero=genero;
     this.correo=correo;
+    this.id_usuario=id_usuario;
     this.id= id;
     }
 
@@ -67,8 +71,6 @@ constructor(nombre :Nombre,
     this.cedula = value;
   } 
 
-
-
  gettelefono():string {
     return this.telefono.toString();
  }
@@ -102,8 +104,14 @@ constructor(nombre :Nombre,
     this.id= value;
   }
 
+  getIdUsuario(): string | null { // Cambia a opcional
+   return this.id_usuario;
+}
+setIdUsuario(value:string | null){ // Cambia a opcional
+   this.id_usuario= value;
+}
   static create(nombre :string, apellido: string ,especialidad: string, cedula: string ,telefono: string
-             , genero: string,  correo: string ,id: string | null ):
+             , genero: string,  correo: string ,id_usuario: string | null, id: string | null ):
              Doctor{
  return new Doctor( 
    Nombre.create(nombre).getRight(),
@@ -113,6 +121,7 @@ constructor(nombre :Nombre,
    telefono,
    genero,
    Correo.create(correo).getRight(),
+   id_usuario , // Cambia a un array opcional
    idDoctor.create(id));
                }
 }

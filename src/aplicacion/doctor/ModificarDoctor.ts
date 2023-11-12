@@ -12,11 +12,11 @@ export class ModificarDoctor implements IApplicationService<ModificarDoctorDto, 
         this.doctorRepositorio = doctorRepo;
     }
     async execute(dto: ModificarDoctorDto): Promise<Either<Error,Doctor>>{
-        let doctor = Doctor.create(dto.nombre, dto.apellido, dto.especialidad, dto.cedula,
-                                   dto.telefono, dto.genero, dto.correo,dto.id);
+        let doctor = Doctor.create(dto.nombre || "", dto.apellido || "", dto.especialidad || "", dto.cedula,
+                                   dto.telefono || "", dto.genero || "", dto.correo || "", dto.id_usuario || null, dto.id || null);
         if(doctor){
             return await this.doctorRepositorio.modificarDoctor(doctor);
         }
-      
     }
+    
 }
