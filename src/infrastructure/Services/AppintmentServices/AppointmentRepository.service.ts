@@ -21,10 +21,13 @@ export class AppointmentRepositoryService implements ICitaRepository {
     appointment.status = cita.getEstado();
     appointment.description = cita.getDescripcion();
 
+    
+
     try {
       const createdAppointment = await this.appointmentRepository.save(appointment);
       return this.mapAppointmentEntityToCita(createdAppointment);
     } catch (error) {
+      console.log(error);
       return null;
     }
   }

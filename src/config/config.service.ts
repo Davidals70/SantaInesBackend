@@ -14,11 +14,11 @@ require('dotenv').config();
 // };
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
-  host: process.env.POSTGRES_HOST ?? 'localhost',
-  port: parseInt(process.env.POSTGRES_PORT ?? '3306'),
-  username: process.env.POSTGRES_USER ?? 'root',
-  password: process.env.POSTGRES_PASSWORD ?? '',
-  database: process.env.POSTGRES_DB ?? 'santaines_wozc',
+  host: process.env.POSTGRES_HOST,
+  port: parseInt(process.env.POSTGRES_PORT),
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_DB,
   autoLoadEntities: true,
   // entities: [],
   synchronize: true,
