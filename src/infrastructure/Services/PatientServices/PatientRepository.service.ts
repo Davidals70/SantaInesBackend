@@ -18,25 +18,27 @@ export class PatientRepositoryService {
     private pacienteRepository: Repository<PatientEntity>,
   ) {}
 
-  async findAll(): Promise<CreatePatientDto[]> {//aaa!!!
+  async findAll(): Promise<PatientEntity[] | null> {//*****
     return this.pacienteRepository.find();
   }
 
-  async findOne(id: string): Promise<CreatePatientDto> {//aaa!!!
-    let patient: PatientEntity;
+  async findOne(id: string): Promise<Paciente | null> {//aaa!!!
+    let patient:PatientEntity;
     if( isUUID(id)){
-      patient = await this.pacienteRepository.findOneBy({ ID: id });
+    patient = await this.pacienteRepository.findOne({ where: {ID: id} });
     }else{
-      const queryBuilder = this.pacienteRepository.createQueryBuilder();
-      patient = await queryBuilder.where("id_number = :id_number", { id_number: id }).getOne();
+     const queryBuilder = this.pacienteRepository.createQueryBuilder();
+     patient = await queryBuilder.where("id_number = :id_number", { id_number: id }).getOne();
     }
-    if(!patient){
-      throw new NotFoundException(`Product with ${id} not found `)
-    } 
-    return patient;
+
+    if (patient) {
+      return this.mapPatientEntityToPaciente(patient);
+    }else{
+      throw new NotFoundException(`Patient with ${id} not found `)
+    }
   }
 
-  async create(pacienteData: Paciente): Promise<Paciente | null> {///aaa!!!Quito el Partial
+  async create(pacienteData: Paciente): Promise<Paciente | null> {///***** Quito el Partial
     try{
       const pacienteDominio = new PatientEntity();
       pacienteDominio.name = pacienteData.getNombre(); 
@@ -58,17 +60,45 @@ export class PatientRepositoryService {
     }
   }
 
-  async update(id: string, pacienteData: UpdatePatientDto): Promise<UpdatePatientDto> {//El Partial no es necesario porque estoy usando el DTO de update
-    const patient = await this.pacienteRepository.preload({
-      ID: id,
-      ...pacienteData
-    });
-
-    if(!patient) throw new BadRequestException(`Patient with id ${id} not found`);
-
+  async update(id: string, pacienteData: Paciente): Promise<Paciente | null> {//El Partial no es necesario porque estoy usando el DTO de update
+    
+    // const patient = await this.pacienteRepository.preload({
+    //   ID: id,
+    //   ...pacienteData
+    // });
     try{
-      await this.pacienteRepository.save(patient); 
-      return patient;
+    const existingPatient = await this.findOne(id);
+    if(existingPatient){
+      if(pacienteData.getNombre())
+        existingPatient.setNombre(pacienteData.getNombre());
+      if(pacienteData.getApellido())
+        existingPatient.setApellido(pacienteData.getApellido());
+      if(pacienteData.getDireccion())
+        existingPatient.setDireccion(pacienteData.getDireccion());
+      if(pacienteData.getFechaNacimiento())
+        existingPatient.setFechaNacimiento(pacienteData.getFechaNacimiento());
+      if(pacienteData.getCedula())
+        existingPatient.setCedula(pacienteData.getCedula());
+      if(pacienteData.getCorreo())
+        existingPatient.setCorreo(pacienteData.getCorreo());
+      if(pacienteData.getGenero())
+        existingPatient.setGenero(pacienteData.getGenero());
+      if(pacienteData.getTelefono())
+        existingPatient.setTelefono(pacienteData.getTelefono());
+
+        const pacienteDominio = new PatientEntity();
+        pacienteDominio.name = existingPatient.getNombre(); 
+        pacienteDominio.address = existingPatient.getDireccion(), 
+        pacienteDominio.birthday = existingPatient.getFechaNacimiento(), 
+        pacienteDominio.email = existingPatient.getCorreo(), 
+        pacienteDominio.gender = existingPatient.getGenero(), 
+        pacienteDominio.id_number = existingPatient.getCedula(),
+        pacienteDominio.lastname = existingPatient.getApellido(), 
+        pacienteDominio.phone_number = existingPatient.getTelefono();
+
+        await this.pacienteRepository.update(id,pacienteDominio);
+        return this.mapPatientEntityToPaciente(pacienteDominio);
+    }
     }catch(error){
       this.handleDBExceptions(error);
     }
@@ -80,7 +110,13 @@ export class PatientRepositoryService {
 
 
   async remove(id: string): Promise<void> {
-    const patient = await this.findOne(id);
+    let patient;
+    if( isUUID(id)){
+      patient = await this.pacienteRepository.findOne({ where: {ID: id} });
+    }else{
+      const queryBuilder = this.pacienteRepository.createQueryBuilder();
+      patient = await queryBuilder.where("id_number = :id_number", { id_number: id }).getOne();
+    }
     await this.pacienteRepository.delete(patient);
   }
 
