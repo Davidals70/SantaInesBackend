@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-// import { AppointmentEntity } from './appointment.entity';
 
 @Entity({ name: 'doctor'})
 export class DoctorEntity {
@@ -27,8 +26,9 @@ export class DoctorEntity {
   @Column()
   email: string;
 
-  @Column()
-  user_id: string;
+ @Column({ nullable: true })
+ user_id: string;
+
 
   // @OneToMany(() => AppointmentEntity, appointment => appointment.doctor_id)
   // @Column()

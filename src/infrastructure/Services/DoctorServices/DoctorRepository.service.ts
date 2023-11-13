@@ -52,7 +52,9 @@ export class DoctorRepositoryService implements RepositorioDoctor
   const result: DoctorEntity[] = await this.doctorRepository.find();
   if(result.length!=0){
       const doctores: Doctor[] = result.map((doctor) =>
-          Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,doctor.phone_number,doctor.gender,doctor.email,doctor.user_id,doctor.ID));
+          Doctor.create(doctor.name,doctor.lastname,doctor.specialization,doctor.id_number,
+                        doctor.phone_number,doctor.gender,
+                        doctor.email,doctor.user_id,doctor.ID));
       return Either.makeRight<Error,Doctor[]>(doctores);
   }
   else{
