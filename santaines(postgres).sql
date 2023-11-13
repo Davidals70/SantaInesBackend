@@ -80,7 +80,7 @@ ALTER TABLE doctor
 ADD user_id varchar(255);
 
 ALTER TABLE doctor
-    ADD CONSTRAINT fk_user_doctor FOREIGN KEY (user_id) REFERENCES customers (username);
+    ADD CONSTRAINT fk_user_doctor FOREIGN KEY (user_id) REFERENCES "user" (username);
 
 -- Auto-increment for dumped tables
 -- Auto-increment for the 'user' table
