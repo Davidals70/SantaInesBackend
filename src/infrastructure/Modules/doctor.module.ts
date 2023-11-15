@@ -9,12 +9,13 @@ import { ModificarDoctor } from 'src/aplicacion/doctor/ModificarDoctor';
 import { RegistrarDoctorService } from 'src/aplicacion/doctor/RegistrarDoctro';
 import { BorrarDoctor } from 'src/aplicacion/doctor/BorrarDoctor';
 import { DoctorEntity } from '../db-entities/doctor.entity';
+import { AppointmentEntity } from '../db-entities/appointment.entity';
 import { DoctorRepositoryService } from '../Services/DoctorServices/DoctorRepository.service';
 import { DoctorController } from '../Controllers/Doctor.controller';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DoctorEntity])],
+  imports: [TypeOrmModule.forFeature([DoctorEntity , AppointmentEntity])],
   providers: [BuscarDoctores,
                 BuscarDoctorPorCorreo,
                 BuscarDoctorPorEspecialidad,

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Raw, Repository } from 'typeorm';
 import { DoctorEntity } from '../../db-entities/doctor.entity';
+import { AppointmentEntity } from 'src/infrastructure/db-entities/appointment.entity';
 import { Doctor } from 'src/domain/doctor/Doctor';
 import { RepositorioDoctor } from "src/domain/repositories/RepositorioDoctor";
 import { Either } from "src/utilidad/either";
@@ -12,6 +13,11 @@ export class DoctorRepositoryService implements RepositorioDoctor
   constructor(
     @InjectRepository(DoctorEntity)
     private doctorRepository: Repository<DoctorEntity>,
+
+    @InjectRepository(AppointmentEntity)
+    private AppointmentRepository: Repository<AppointmentEntity>
+
+
   ) {}
 
   async registrarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
@@ -154,16 +160,25 @@ export class DoctorRepositoryService implements RepositorioDoctor
 }
 
 
-  async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
+async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const doctor: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
     if(doctor){
-        await this.doctorRepository.delete(doctor);
-        return Either.makeRight<Error,string>(cedula);
+        // Buscar citas para este doctor
+        const citas = await this.AppointmentRepository.find({ where: { doctor_id: doctor.ID } });
+        if (citas.length > 0) {
+            // Si el doctor tiene citas, no permitir la eliminación
+            return Either.makeLeft<Error,string>(new Error('No se puede eliminar un doctor que tiene citas asignadas'));
+        } else {
+            // Si el doctor no tiene citas, proceder con la eliminación
+            await this.doctorRepository.delete(doctor);
+            return Either.makeRight<Error,string>(cedula);
+        }
     }
     else{
         return Either.makeLeft<Error,string>(new Error('Error de la base de datos'));
     }
 }
+
 
 }
 
