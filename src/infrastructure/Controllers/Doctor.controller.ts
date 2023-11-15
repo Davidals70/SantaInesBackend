@@ -115,7 +115,7 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         }
     }
 
-    @Delete('/delete')
+    @Delete('/borrar')
     async delete (@Res() response, @Body() body: BorrarDoctorDto){
         const result = await this.eliminarDoctor.execute(body);
         if(result.isRight()){
