@@ -163,6 +163,7 @@ export class DoctorRepositoryService implements RepositorioDoctor
 async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const doctor: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
     if(doctor){
+     
         // Buscar citas para este doctor
         const citas = await this.AppointmentRepository.find({ where: { doctor_id: doctor.id_number } });
         if (citas.length > 0) {
@@ -170,7 +171,7 @@ async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
             return Either.makeLeft<Error,string>(new Error('No se puede eliminar un doctor que tiene citas asignadas'));
         } else {
             // Si el doctor no tiene citas, proceder con la eliminación
-            await this.doctorRepository.delete(doctor);
+            await this.doctorRepository.remove(doctor);
             return Either.makeRight<Error,string>(cedula);
         }
     }
