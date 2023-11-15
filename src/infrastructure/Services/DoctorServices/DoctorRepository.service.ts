@@ -164,7 +164,7 @@ async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
     const doctor: DoctorEntity = await this.doctorRepository.findOneBy({id_number:cedula});
     if(doctor){
         // Buscar citas para este doctor
-        const citas = await this.AppointmentRepository.find({ where: { doctor_id: doctor.ID } });
+        const citas = await this.AppointmentRepository.find({ where: { doctor_id: doctor.id_number } });
         if (citas.length > 0) {
             // Si el doctor tiene citas, no permitir la eliminación
             return Either.makeLeft<Error,string>(new Error('No se puede eliminar un doctor que tiene citas asignadas'));
