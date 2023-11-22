@@ -20,7 +20,6 @@ export class UserController {
     const userInfoDto: UserInfoDto = new UserInfoDto();
     userInfoDto.username = userEntity.username;
     userInfoDto.user_type = userEntity.user_type;
-    userInfoDto.password = userEntity.password;
     return userInfoDto;
   }
 
