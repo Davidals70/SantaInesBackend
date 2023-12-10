@@ -8,6 +8,7 @@ import { BuscarDoctorPorCedula } from 'src/aplicacion/doctor/BuscarDoctorPorCedu
 import { ModificarDoctor } from 'src/aplicacion/doctor/ModificarDoctor';
 import { RegistrarDoctorService } from 'src/aplicacion/doctor/RegistrarDoctro';
 import { BorrarDoctor } from 'src/aplicacion/doctor/BorrarDoctor';
+import { BuscarIdUser } from 'src/aplicacion/doctor/BuscarIdUser';
 import { DoctorEntity } from '../db-entities/doctor.entity';
 import { AppointmentEntity } from '../db-entities/appointment.entity';
 import { DoctorRepositoryService } from '../Services/DoctorServices/DoctorRepository.service';
@@ -21,6 +22,7 @@ import { DoctorController } from '../Controllers/Doctor.controller';
                 BuscarDoctorPorEspecialidad,
                 BuscarDoctorPornombre,
                 BuscarDoctorPorCedula,
+                BuscarIdUser,
                 ModificarDoctor,
                 RegistrarDoctorService,
                 BorrarDoctor,
