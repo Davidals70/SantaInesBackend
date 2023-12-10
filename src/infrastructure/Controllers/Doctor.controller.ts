@@ -3,6 +3,7 @@ import { BuscarCorreoDto } from 'src/aplicacion/doctor/DataTransferObject/Buscar
 import { BuscarDoctorNombreDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarDoctorNombreDto';
 import { BuscarEspecialidadDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarEspecialidadDto';
 import { BuscarCedulaDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarCedulaDto';
+import { BuscarIdUserDto } from 'src/aplicacion/doctor/DataTransferObject/BuscarIdUserDto';
 import { ModificarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/ModificarDoctorDto';
 import { RegistrarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/RegistrarDoctorDto';
 import { BorrarDoctorDto } from 'src/aplicacion/doctor/DataTransferObject/BorrarDoctorDto';
@@ -11,6 +12,7 @@ import { BuscarDoctorPorCorreo } from 'src/aplicacion/doctor/BuscarDoctorPorCorr
 import { BuscarDoctorPorEspecialidad } from 'src/aplicacion/doctor/BuscarDoctorPorEspecialidad';
 import { BuscarDoctorPornombre } from 'src/aplicacion/doctor/BuscarDoctorPorNombre';
 import { BuscarDoctorPorCedula } from 'src/aplicacion/doctor/BuscarDoctorPorCedula';
+import { BuscarIdUser } from 'src/aplicacion/doctor/BuscarIdUser';
 import { ModificarDoctor } from 'src/aplicacion/doctor/ModificarDoctor';
 import { RegistrarDoctorService } from 'src/aplicacion/doctor/RegistrarDoctro';
 import { BorrarDoctor } from 'src/aplicacion/doctor/BorrarDoctor';
@@ -23,6 +25,7 @@ export class DoctorController {
               private readonly buscarPorCorreoService:BuscarDoctorPorCorreo,
               private readonly buscarPorEspecialidadService: BuscarDoctorPorEspecialidad,
               private readonly buscarPorCedulaService: BuscarDoctorPorCedula,
+              private readonly buscarIdUserService: BuscarIdUser,
               private readonly eliminarDoctor: BorrarDoctor,
               private readonly buscarPorNombreService:BuscarDoctorPornombre,
               private readonly modifcarDoctorService:ModificarDoctor,
@@ -103,17 +106,29 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         }
     }
 
-    @Put('/modificate')
-    async modificate(@Res() response, @Body() body: ModificarDoctorDto){
-        let result = await this.modifcarDoctorService.execute(body);
+    @Get('/findByIdUser')
+    async findByIdUser(@Res() response, @Body() body:BuscarIdUserDto){
+        let result = await this.buscarIdUserService.execute(body);
         if(result.isRight()){
             return response.status(HttpStatus.OK).json(result.getRight());
         }
         else{
-            console.log("ERROR CONEXION");
             return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
         }
     }
+
+    @Put('/modificate/:cedula')
+async modificate(@Res() response, @Param('cedula') cedula: string, @Body() body: ModificarDoctorDto){
+    let result = await this.modifcarDoctorService.execute(cedula, body);
+    if(result.isRight()){
+        return response.status(HttpStatus.OK).json(result.getRight());
+    }
+    else{
+        console.log("ERROR CONEXION");
+        return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
+    }
+}
+
 
     @Delete('/delete')
     async delete (@Res() response, @Body() body: BorrarDoctorDto){

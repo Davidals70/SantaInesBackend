@@ -135,10 +135,33 @@ export class DoctorRepositoryService implements RepositorioDoctor
     }
    }
 
-   async modificarDoctor(doctor: Doctor): Promise<Either<Error, Doctor>> {
+   
+
+   async buscarIdUser(id_user: string): Promise<Either<Error,Doctor>> {
+    const result: DoctorEntity = await this.doctorRepository.findOneBy({user_id:id_user});
+    if(result){
+        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,
+                                               result.id_number,result.phone_number,
+                                               result.gender,result.email,result.user_id,result.ID);
+        return Either.makeRight<Error,Doctor>(doctores);
+    }
+    else{
+        return Either.makeLeft<Error,Doctor>(new Error('No se encontro doctores por id de secretaria'));
+    }
+   }
+
+   async modificarDoctor(cedula: string, doctor: Doctor): Promise<Either<Error, Doctor>> {
     try {
-        let doctorId = await this.doctorRepository.findOneBy({id_number:doctor.getcedula()});
+        let doctorId = await this.doctorRepository.findOneBy({id_number: cedula});
         if(doctorId){
+            // Verificar si la nueva cédula ya está en uso por otro doctor
+            if (doctor.getcedula() !== cedula) {
+                let doctorConNuevaCedula = await this.doctorRepository.findOneBy({id_number: doctor.getcedula()});
+                if (doctorConNuevaCedula) {
+                    return Either.makeLeft<Error,Doctor>(new Error('La nueva cédula ya está en uso'));
+                }
+            }
+            // Continuar con la actualización si la nueva cédula no está en uso o es la misma que la cédula actual
             if (doctor.getNombre()) doctorId.name = doctor.getNombre();
             if (doctor.getApellido()) doctorId.lastname = doctor.getApellido();
             if (doctor.getespecialidad()) doctorId.specialization = doctor.getespecialidad();
@@ -158,6 +181,9 @@ export class DoctorRepositoryService implements RepositorioDoctor
         return Either.makeLeft<Error,Doctor>(new Error('Error en la conexión a la base de datos'));
     }
 }
+
+
+
 
 
 async eliminarDoctor(cedula:string): Promise<Either<Error,string>> {
