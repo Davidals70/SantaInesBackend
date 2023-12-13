@@ -1,11 +1,11 @@
-import { IApplicationService } from "src/utilidad/IApplicationService";
+import { IApplicationList } from "src/utilidad/IapplicationList";
 import {BuscarDoctorNombreDto } from "./DataTransferObject/BuscarDoctorNombreDto";
 import { Doctor } from "../../domain/doctor/Doctor";
 import { Inject } from "@nestjs/common";
 import { Either } from "src/utilidad/either";
 import { RepositorioDoctor } from "../../domain/repositories/RepositorioDoctor";
 
-export class BuscarDoctorPornombre implements IApplicationService<BuscarDoctorNombreDto,Doctor>{
+export class BuscarDoctorPornombre implements IApplicationList<BuscarDoctorNombreDto,Doctor>{
 
     private readonly doctorRepositorio: RepositorioDoctor;
 
@@ -13,10 +13,8 @@ export class BuscarDoctorPornombre implements IApplicationService<BuscarDoctorNo
         this.doctorRepositorio = doctorRepo;
     }
 
-    async execute(service: BuscarDoctorNombreDto): Promise<Either<Error,Doctor>>{
-            
+    async execute(service: BuscarDoctorNombreDto): Promise<Either<Error,Doctor[]>>{
         return await this.doctorRepositorio.buscarDoctorPorNombre(service.nombre,service.apellido);
-
     }
     
 }

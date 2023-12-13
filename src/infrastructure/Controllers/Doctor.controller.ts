@@ -52,6 +52,17 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         }
     }
 
+    @Get('/findByIdUser')
+    async findByIdUser(@Res() response, @Body() body:BuscarIdUserDto){
+        let result = await this.buscarIdUserService.execute(body);
+        if(result.isRight()){
+            return response.status(HttpStatus.OK).json(result.getRight());
+        }
+        else{
+            return response.status(HttpStatus.NOT_FOUND).json({message: result.getLeft().message});
+        }
+    }
+    
     @Get('/findByName')
     async findByName(@Res() response, @Body() body: BuscarDoctorNombreDto) {
       const nombreLowerCase = body.nombre.toLowerCase();
@@ -106,16 +117,6 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         }
     }
 
-    @Get('/findByIdUser')
-    async findByIdUser(@Res() response, @Body() body:BuscarIdUserDto){
-        let result = await this.buscarIdUserService.execute(body);
-        if(result.isRight()){
-            return response.status(HttpStatus.OK).json(result.getRight());
-        }
-        else{
-            return response.status(HttpStatus.NOT_FOUND).json(result.getLeft().message);
-        }
-    }
 
     @Put('/modificate/:cedula')
 async modificate(@Res() response, @Param('cedula') cedula: string, @Body() body: ModificarDoctorDto){

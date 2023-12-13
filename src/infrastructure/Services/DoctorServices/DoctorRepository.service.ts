@@ -81,44 +81,41 @@ export class DoctorRepositoryService implements RepositorioDoctor
   }
  }
 
- async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor>> {
-    const result: DoctorEntity = await this.doctorRepository.findOneBy({
-        specialization:Raw(alias => `LOWER(${alias}) = LOWER('${especialidad}')`)});
-    if(result){
-        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,result.id_number,
-                                               result.phone_number,result.gender,result.email,result.user_id,result.ID);
-        return Either.makeRight<Error,Doctor>(doctores);
+ async buscarDoctorPorEspecialidad(especialidad: string): Promise<Either<Error,Doctor[]>> {
+    const results: DoctorEntity[] = await this.doctorRepository.find({
+        where: {specialization:Raw(alias => `LOWER(${alias}) = LOWER('${especialidad}')`)}});
+    if(results.length > 0){
+        const doctores: Doctor[] = results.map(result => Doctor.create(result.name,result.lastname,result.specialization,result.id_number,
+                                                                       result.phone_number,result.gender,result.email,result.user_id,result.ID));
+        return Either.makeRight<Error,Doctor[]>(doctores);
     }
     else{
-        return Either.makeLeft<Error,Doctor>(new Error('No se encontro el doctor por especialidad'));
+        return Either.makeLeft<Error,Doctor[]>(new Error('No se encontraron doctores por especialidad'));
     }
-   }
+}
 
 
 
- async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error, Doctor>> { 
-    const result: DoctorEntity = await this.doctorRepository.findOneBy({
-      name: Raw(alias => `LOWER(${alias}) = LOWER('${nombre}')`),
-      lastname: Raw(alias => `LOWER(${alias}) = LOWER('${apellido}')`),
+
+
+async buscarDoctorPorNombre(nombre: string, apellido: string): Promise<Either<Error,Doctor[]>> {
+    const results: DoctorEntity[] = await this.doctorRepository.find({
+        where: {
+            name: Raw(alias => `${alias} ILIKE '%${nombre}%'`),
+            lastname: Raw(alias => `${alias} ILIKE '%${apellido}%'`)
+        }
     });
-  
-    if (result) {
-      const doctores: Doctor = Doctor.create(
-        result.name,
-        result.lastname,
-        result.specialization,
-        result.id_number,
-        result.phone_number,
-        result.gender,
-        result.email,
-        result.user_id,
-        result.ID
-      );
-      return Either.makeRight<Error, Doctor>(doctores);
-    } else {
-      return Either.makeLeft<Error, Doctor>(new Error('No se encontró el doctor por nombre y apellido'));
+    if(results.length > 0){
+        const doctores: Doctor[] = results.map(result => Doctor.create(result.name,result.lastname,result.specialization,result.id_number,
+                                                                       result.phone_number,result.gender,result.email,result.user_id,result.ID));
+        return Either.makeRight<Error,Doctor[]>(doctores);
     }
-  }
+    else{
+        return Either.makeLeft<Error,Doctor[]>(new Error('No se encontraron doctores por nombre y apellido'));
+    }
+}
+
+
 
 
 
@@ -137,18 +134,19 @@ export class DoctorRepositoryService implements RepositorioDoctor
 
    
 
-   async buscarIdUser(id_user: string): Promise<Either<Error,Doctor>> {
-    const result: DoctorEntity = await this.doctorRepository.findOneBy({user_id:id_user});
-    if(result){
-        const doctores: Doctor = Doctor.create(result.name,result.lastname,result.specialization,
-                                               result.id_number,result.phone_number,
-                                               result.gender,result.email,result.user_id,result.ID);
-        return Either.makeRight<Error,Doctor>(doctores);
+   async buscarIdUser(id_user: string): Promise<Either<Error,Doctor[]>> {
+    const results: DoctorEntity[] = await this.doctorRepository.find({where: {user_id: id_user}});
+    if(results.length > 0){
+        const doctores: Doctor[] = results.map(result => Doctor.create(result.name,result.lastname,result.specialization,
+                                                                       result.id_number,result.phone_number,
+                                                                       result.gender,result.email,result.user_id,result.ID));
+        return Either.makeRight<Error,Doctor[]>(doctores);
     }
     else{
-        return Either.makeLeft<Error,Doctor>(new Error('No se encontro doctores por id de secretaria'));
+        return Either.makeLeft<Error,Doctor[]>(new Error('No se encontraron doctores por id de usuario'));
     }
-   }
+}
+
 
    async modificarDoctor(cedula: string, doctor: Doctor): Promise<Either<Error, Doctor>> {
     try {
