@@ -87,13 +87,15 @@ export class AppointmentRepositoryService implements IAppointmentRepository {
     if (existingAppointment) {
 
       var appointment: Object = {};
+      if(cita.getIdPaciente())
+        appointment = { ...appointment, patient_id: cita.getIdPaciente() };
       if(cita.getFechaCita())
         appointment = { ...appointment, appointment_date: cita.getFechaCita() };
       if(cita.getEstado())
         appointment = { ...appointment, status: cita.getEstado() };
       if(cita.getDescripcion())
         appointment = { ...appointment, description: cita.getDescripcion() };
-        
+
       await this.appointmentRepository.update(id, appointment);
       return true;
     }

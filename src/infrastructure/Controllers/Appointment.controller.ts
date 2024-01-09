@@ -138,7 +138,7 @@ export class AppointmentController {
     const cita: Cita = appointmentFactory.CrearCita(
       null,
       null,
-      null,
+      appointmentData.patientId,
       null,
       appointmentData.appointmentDate,
       appointmentData.description,

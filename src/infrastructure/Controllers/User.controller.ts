@@ -35,7 +35,10 @@ export class UserController {
     if (user.password === UserLogInDto.password){
       return {
         message: "Succesful",
-        value: true
+        value: true,
+        user_id: user.ID,
+        username: user.username,
+        user_type: user.user_type
       }
     }
     else{
