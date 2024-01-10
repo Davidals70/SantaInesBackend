@@ -52,7 +52,7 @@ async create(@Res() response, @Body() body: RegistrarDoctorDto) {
         }
     }
 
-    @Get('/findByIdUser')
+    @Post('/findByIdUser')
     async findByIdUser(@Res() response, @Body() body:BuscarIdUserDto){
         let result = await this.buscarIdUserService.execute(body);
         if(result.isRight()){
