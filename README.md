@@ -1,3 +1,5 @@
+# Sistema Integral de Gestión de Citas e Historias Médicas
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -22,52 +24,42 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripción:
+Este proyecto se ejecuta bajo la premisa de mejorar la atención médica mediante la implementación de soluciones tecnológicas avanzadas. El desarrollo se realiza de manera colaborativa, siguiendo las mejores prácticas de desarrollo de software, con especial atención a la calidad del código y la usabilidad de la interfaz.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
+### Arquitectura del Proyecto
 
-## Installation
+-   **Backend (NestJs):**
+    -   Desarrollado con NestJS y Node.js utilizando TypeScript.
+    -   Estructurado en capas: Infraestructura, Aplicación y Dominio.
+    -   Uso de PostgreSQL con Typeorm para la gestión de la base de datos.
+ ---
 
-```bash
+### Instalación
+
+Clonación Aplicación **Backend**:
+```
+$ git clone https://github.com/Davidals70/SantaInesBackend.git
+$ cd ../SantaInesBackend
 $ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
-## Test
+>Ademas será necesario la creación de una BD en **PostgreSQL** con la siguiente estructura de datos:
+>
+>![Estructura de datos](https://i.imgur.com/nkF8swB.png)
+>
+>Para luego seguir los siguientes pasos:
+>
+>1. Dentro de la carpeta del proyecto **backend**, crear un archivo .env para el manejo de las variables de entorno.
+>2. Dentro del archivo .env copiar la siguientes variables, cambiando los valores por los suyos:
+>```
+>require('dotenv').config()      #No modificar
+>POSTGRES_HOST  = nombre_host
+>POSTGRES_PORT  = puerto
+>POSTGRES_DB  = nombre_BD
+>POSTGRES_USER  = nombre_usuario
+>POSTGRES_PASSWORD  =  contraseña_BD
+>```
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
